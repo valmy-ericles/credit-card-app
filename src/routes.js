@@ -13,7 +13,14 @@ export default ({ signed = false }) => {
 
   if(signed) {
     return (
-      <Tab.Navigator>
+      <Tab.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: '#3D3F40'
+          },
+          headerTintColor: '#fff'
+        }}
+      >
         <Tab.Screen name="Cards" component={Signin} />
         <Tab.Screen name="Invoices" component={Signup} />
       </Tab.Navigator>
@@ -21,7 +28,16 @@ export default ({ signed = false }) => {
   }
 
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#3D3F40',
+          elevation: 0,
+          shadowOpacity: 0,
+        },
+        headerTintColor: '#fff'
+      }}
+    >
       <Stack.Screen name="Signin" component={Signin} />
       <Stack.Screen name="Signup" component={Signup} />
     </Stack.Navigator>

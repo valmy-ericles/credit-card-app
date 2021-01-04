@@ -1,10 +1,23 @@
 import React from 'react';
-import { View } from 'react-native';
+import { Text } from 'react-native';
 
-// import { Container } from './styles';
+import Background from '../../components/Background';
+import Button from '../../components/Button';
+import Input from '../../components/Input';
 
 const Signin = () => {
-  return <View />;
+  return (
+    <Background>      
+      <Input
+        icon="account-circle-outline"
+        placeholder="Nome completo"
+      />
+
+      <Button>
+        Acessar
+      </Button>
+    </Background>
+  )
 }
 
 export default Signin;
