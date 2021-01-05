@@ -2,19 +2,19 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
   padding: 0 15px;
-  background: #fff;
+  background: rgba(219, 230, 234, 0.33);
   height: 50px;
-  border-radius: 23px;
+  border-radius: 10px;
 
   flex-direction: row;
   align-items: center;
 `;
 
 export const TInput = styled.TextInput.attrs({
-  placeholderTextColor: '#676161',
+  placeholderTextColor: '#E7E7E7',
 })`
   flex: 1;
   font-size: 15px;
   margin-left: 10px;
-  color: #676161;
+  color: #fff;
 `;

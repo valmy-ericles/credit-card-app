@@ -8,7 +8,7 @@ import Routes from './routes';
 const src = () => {
   return (
     <NavigationContainer>
-      <StatusBar barStyle="light-content" backgroundColor="#3D3F40" />
+      <StatusBar barStyle="light-content" backgroundColor="#615E86" />
       <Routes signed={false} />
     </NavigationContainer>
   )

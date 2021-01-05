@@ -31,7 +31,7 @@ export default ({ signed = false }) => {
     <Stack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: '#3D3F40',
+          backgroundColor: '#615E86',
           elevation: 0,
           shadowOpacity: 0,
         },
