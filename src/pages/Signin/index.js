@@ -41,7 +41,7 @@ const Signin = ({ navigation }) => {
           </SubmitButton>
         </Form>
 
-        <SignupLink>
+        <SignupLink onPress={() => navigation.navigate('Signup')}>
           <SignupLinkText>
             Não tenho conta
           </SignupLinkText>

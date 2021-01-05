@@ -39,7 +39,14 @@ export default ({ signed = false }) => {
       }}
     >
       <Stack.Screen name="Signin" component={Signin} />
-      <Stack.Screen name="Signup" component={Signup} />
+      
+      <Stack.Screen 
+        name="Signup"
+        options={{
+          title: "Cadastro"
+        }}
+        component={Signup} 
+      />
     </Stack.Navigator>
   )
 }
