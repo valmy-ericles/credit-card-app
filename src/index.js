@@ -9,7 +9,7 @@ const src = () => {
   return (
     <NavigationContainer>
       <StatusBar barStyle="light-content" backgroundColor="#615E86" />
-      <Routes signed={false} />
+      <Routes signed={true} />
     </NavigationContainer>
   )
 }

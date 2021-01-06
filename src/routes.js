@@ -5,24 +5,55 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
+import Dashboard from './pages/Dashboard';
+
+import TabButton from './components/TabButton';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
+
+const titles = {
+  Dashboard: 'Home',
+  CreditCards: 'Cartões',
+  Invoices: 'Faturas',
+  Profile: 'Perfil'
+}
 
 export default ({ signed = false }) => {
 
   if(signed) {
     return (
       <Tab.Navigator
-        screenOptions={{
+        screenOptions={({ route, navigation }) => ({
+          tabBarIcon: ({ focused }) => {
+            return (
+              <TabButton 
+                focused={focused} 
+                pageTitle={titles[route.name]} 
+                onPress={() => navigation.navigate(route.name)} 
+              />
+            )
+          },
           headerStyle: {
-            backgroundColor: '#3D3F40'
+            backgroundColor: '#615E86'
           },
           headerTintColor: '#fff'
+        })}
+
+        tabBarOptions={{
+          style: {
+            backgroundColor: '#996AAF',
+            height: 80,
+          },
+          showLabel: false,
+          activeTintColor: '#fff',
+          inactiveTintColor: '#fff',
         }}
       >
-        <Tab.Screen name="Cards" component={Signin} />
-        <Tab.Screen name="Invoices" component={Signup} />
+        <Tab.Screen options={{ title: 'Home' }} name="Dashboard" component={Dashboard} />
+        <Tab.Screen options={{ title: 'Cartões' }} name="CreditCards" component={Dashboard} />
+        <Tab.Screen options={{ title: 'Faturas' }} name="Invoices" component={Dashboard} />
+        <Tab.Screen options={{ title: 'Perfil' }} name="Profile" component={Dashboard} />
       </Tab.Navigator>
     )
   }
