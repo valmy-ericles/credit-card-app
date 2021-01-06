@@ -1,5 +1,6 @@
 import React from 'react';
 import { TouchableHighlight } from 'react-native';
+import { RectButton } from 'react-native-gesture-handler';
 
 import Background from '../../components/Background';
 import Separator from '../../components/separator';
@@ -45,9 +46,9 @@ const Dashboard = ({ navigation }) => {
         <RecentInvoices>
           <RecentInvoicesTitle>Faturas recentes</RecentInvoicesTitle>
           
-          <TouchableHighlight onPress={() => navigation.navigate('Invoices')}>
+          <RectButton onPress={() => navigation.navigate('Invoices')}>
             <CardInvoice paid={false} cardName="Nubank" totalValue={'86,50'} dueDate={'25/01/2021'} />
-          </TouchableHighlight>
+          </RectButton>
 
           <CardInvoice paid cardName="Nubank" totalValue={'86,50'} dueDate={'25/01/2021'} />
           <CardInvoice paid={false} cardName="Itaú" totalValue={'86,50'} dueDate={'25/01/2021'} />

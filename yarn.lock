@@ -4573,7 +4573,7 @@ promise@^8.0.3:
   dependencies:
     asap "~2.0.6"
 
-prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.10, prop-types@^15.5.9, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -4647,6 +4647,14 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.1.tgz#5b3531bd76a645a4c9fb6e693ed36419e3301339"
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
 
+react-native-custom-dropdown@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-custom-dropdown/-/react-native-custom-dropdown-1.0.1.tgz#ee0db5375f8b3bd876f6a842ce4d79497574c3fa"
+  integrity sha512-pfMc7WaVkT8cubnN6GC9bpl8EDHa62Rs1C6ua16epnr0Berq0SbHNa4HCNtqqIGGrAN6rlX3uSkMEwHA+ROCsQ==
+  dependencies:
+    prop-types "^15.7.2"
+    react-native-vector-icons "^7.0.0"
+
 react-native-gesture-handler@~1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.8.0.tgz#18f61f51da50320f938957b0ee79bc58f47449dc"
@@ -4670,6 +4678,45 @@ react-native-masked-text@^1.13.0:
     date-and-time "0.9.0"
     tinymask "1.0.2"
 
+react-native-material-buttons@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/react-native-material-buttons/-/react-native-material-buttons-0.5.0.tgz#ab2b3e3fc3f500ca713f51e9d75978aff602152a"
+  integrity sha1-qys+P8P1AMpxP1Hp11l4r/YCFSo=
+  dependencies:
+    prop-types "^15.5.9"
+    react-native-material-ripple "^0.7.0"
+
+react-native-material-dropdown@^0.11.1:
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/react-native-material-dropdown/-/react-native-material-dropdown-0.11.1.tgz#c0fe434a8e617941ef910ba44d2f07c8f37584fe"
+  integrity sha1-wP5DSo5heUHvkQukTS8HyPN1hP4=
+  dependencies:
+    prop-types "^15.5.9"
+    react-native-material-buttons "^0.5.0"
+    react-native-material-ripple "^0.8.0"
+    react-native-material-textfield "^0.12.0"
+
+react-native-material-ripple@^0.7.0:
+  version "0.7.5"
+  resolved "https://registry.yarnpkg.com/react-native-material-ripple/-/react-native-material-ripple-0.7.5.tgz#e2af5110680532f14aea3c3a438247be2ffef659"
+  integrity sha1-4q9REGgFMvFK6jw6Q4JHvi/+9lk=
+  dependencies:
+    prop-types "^15.5.10"
+
+react-native-material-ripple@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/react-native-material-ripple/-/react-native-material-ripple-0.8.0.tgz#b8c24e6fdea2af2a21e8468b1f40b35483019e2f"
+  integrity sha1-uMJOb96iryoh6EaLH0CzVIMBni8=
+  dependencies:
+    prop-types "^15.5.10"
+
+react-native-material-textfield@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/react-native-material-textfield/-/react-native-material-textfield-0.12.0.tgz#3fba19d76ab89f67052c81e082152fc243d82a3f"
+  integrity sha1-P7oZ12q4n2cFLIHgghUvwkPYKj8=
+  dependencies:
+    prop-types "^15.5.9"
+
 react-native-reanimated@~1.13.0:
   version "1.13.2"
   resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-1.13.2.tgz#1ae5457b24b4913d173a5a064bb28eae7783d293"
@@ -4687,10 +4734,19 @@ react-native-screens@~2.15.0:
   resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-2.15.0.tgz#9b97c1881c4fcdf304bf363f0013225901625f44"
   integrity sha512-qTSQPy0WKHtlb8xt5gY0Gt6sdvfQUQAnFSqgsggW9UEvySbkHzpqOrOYNA79Ca8oXO0dCFwp6X8buIiDefa7+Q==
 
-react-native-text-input-mask@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-text-input-mask/-/react-native-text-input-mask-2.0.0.tgz#9cb793e764355d9282d92ea5231d8030a7ca5692"
-  integrity sha512-kP8gURb1+6iR6CxfUx802f4ja9Jzer76hY1w0cjaCVsfbbzyykYIAANTnlxbmFFv/8pQl4NTm1CbQqkg0Cp/gA==
+react-native-vector-icons@^7.0.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-7.1.0.tgz#145487d617b2a81d395d2cf64e6e065fcab3a454"
+  integrity sha512-V2a1zJ4i+kS8O4j183gIwX14St9AxxXabxwYpFBgRhvr2NDXyFcjHDEAgrOYYlt2W57e20aN1tBDU/I+wn9WtQ==
+  dependencies:
+    lodash.frompairs "^4.0.1"
+    lodash.isequal "^4.5.0"
+    lodash.isstring "^4.0.1"
+    lodash.omit "^4.5.0"
+    lodash.pick "^4.4.0"
+    lodash.template "^4.5.0"
+    prop-types "^15.7.2"
+    yargs "^15.0.2"
 
 react-native-web@~0.13.12:
   version "0.13.18"
@@ -5836,7 +5892,7 @@ yargs@^14.2.0:
     y18n "^4.0.0"
     yargs-parser "^15.0.1"
 
-yargs@^15.1.0:
+yargs@^15.0.2, yargs@^15.1.0:
   version "15.4.1"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-15.4.1.tgz#0d87a16de01aee9d8bec2bfbf74f67851730f4f8"
   integrity sha512-aePbxDmcYW++PaqBsJ+HYUFwCdv4LVvdnhBy78E57PIor8/OVvhMrADFFEDh8DHDFRv/O9i3lPhsENjO7QX0+A==

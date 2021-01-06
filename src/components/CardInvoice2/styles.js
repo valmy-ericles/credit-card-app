@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { CircleEditButton, CircleTrashButton } from '../../components/CircleButtons';
 
 export const Container = styled.View`
   background: rgba(200, 206, 239, 0.63);
@@ -54,4 +55,16 @@ export const TotalValue = styled.Text`
   font-size: 18px;
   font-weight: 600;
   color: #fff;
+`;
+
+export const Actions = styled.View`
+  flex-direction: row;
+`;
+
+export const CardEditButton = styled(CircleEditButton)`
+  margin-right: 10px;
+`;
+
+export const CardTrashButton = styled(CircleTrashButton)`
+  align-items: center;
 `;

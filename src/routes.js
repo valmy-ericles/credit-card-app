@@ -5,7 +5,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
+
 import Dashboard from './pages/Dashboard';
+import Invoices from './pages/Invoices';
 
 import TabButton from './components/TabButton';
 
@@ -51,8 +53,8 @@ export default ({ signed = false }) => {
         }}
       >
         <Tab.Screen options={{ title: 'Home' }} name="Dashboard" component={Dashboard} />
+        <Tab.Screen options={{ title: 'Faturas' }} name="Invoices" component={Invoices} />
         <Tab.Screen options={{ title: 'Cartões' }} name="CreditCards" component={Dashboard} />
-        <Tab.Screen options={{ title: 'Faturas' }} name="Invoices" component={Dashboard} />
         <Tab.Screen options={{ title: 'Perfil' }} name="Profile" component={Dashboard} />
       </Tab.Navigator>
     )
