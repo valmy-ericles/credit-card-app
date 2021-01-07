@@ -10,6 +10,7 @@ import Dashboard from './pages/Dashboard';
 import Invoices from './pages/Invoices';
 import NewInvoice from './pages/NewInvoice';
 import EditInvoice from './pages/EdtiInvoice';
+import Profile from './pages/Profile';
 
 import TabButton from './components/TabButton';
 
@@ -76,7 +77,7 @@ export default ({ signed = false }) => {
         <Tab.Screen options={{ title: 'Home' }} name="Dashboard" component={Dashboard} />
         <Tab.Screen options={{ title: 'Faturas' }} name="Invoices" component={InvoiceStack} />
         <Tab.Screen options={{ title: 'Cartões' }} name="CreditCards" component={Dashboard} />
-        <Tab.Screen options={{ title: 'Perfil' }} name="Profile" component={Dashboard} />
+        <Tab.Screen options={{ title: 'Perfil' }} name="Profile" component={Profile} />
       </Tab.Navigator>
     )
   }

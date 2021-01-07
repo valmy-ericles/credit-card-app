@@ -1,7 +1,6 @@
 import React from 'react';
-import { TouchableHighlight } from 'react-native';
 
-import DropDownPicker from "react-native-custom-dropdown";
+import DropDownPicker from 'react-native-dropdown-picker';
 
 import Background from '../../components/Background';
 import { AntDesign } from '@expo/vector-icons';
@@ -28,35 +27,31 @@ const Invoices = ({ navigation }) => {
     <Background>
       <Container>
         <ActionsContainer>
-          <DropDownPicker
+            <DropDownPicker
               items={[
-                  {label: 'Pagas', value: 'payed' },
-                  {label: 'Não pagas', value: 'not_payed' },
+                  {label: 'Pagas', value: 'pagas'},
+                  {label: 'Não pagas', value: 'nao-pagas'},
               ]}
-              defaultValue={'payed'}
-              containerStyle={{
-                height: 50,
-                width: 200
-              }}
-              style={{
-                backgroundColor: 'rgba(7, 13, 68, 0.22)',
-                borderWidth: 0
-              }}
-              itemStyle={{
-                  justifyContent: 'flex-end',
-                  alignSelf: 'stretch'
-              }}
-              labelStyle={{
+              defaultIndex={0}
+              containerStyle={{height: 50, width: 300 }}
+              
+              placeholder="Selecione o cartão"
+              placeholderStyle={{
                 fontSize: 18,
-                fontWeight: 'bold',
-                color: '#fff'
+                color: '#D8D8D8'
               }}
-              dropDownStyle={{
-                backgroundColor: 'rgba(7, 13, 68, 0.22)',
+
+              style={{
+                backgroundColor: 'rgba(219, 230, 234, 0.33)',
                 borderWidth: 0,
+                borderRadius: 4,
               }}
-              onChangeItem={text => setKindInvoice(text)}
-          />
+
+              labelStyle={{fontSize: 15, color: '#fff'}}
+              dropDownStyle={{backgroundColor: 'rgba(125, 73, 150, 0.99)', borderWidth: 0 }}
+
+              onChangeItem={item => console.log(item.label, item.value)}
+            />
 
           <AddButton onPress={() => navigation.navigate('NewInvoice')}>
             <AntDesign name="plus" size={24} color="#fff" />

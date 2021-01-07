@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
 
 import {
-  Modal,
   StyleSheet,
   View,
   Text
@@ -13,7 +12,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 
 import Background from '../../components/Background';
 
-import { Container, Form, ArrowBack, SubmitButton } from './styles';
+import { Container, Form, SubmitButton } from './styles';
 import { TextInputMask } from 'react-native-masked-text'
 
 const NewInvoice = ({ navigation, modalVisible, hideModal }) => {
@@ -31,10 +30,6 @@ const NewInvoice = ({ navigation, modalVisible, hideModal }) => {
 
   return (
     <Background>
-        {/* <ArrowBack onPress={() => hideModal()} >
-          <AntDesign name="arrowleft" size={28} color="#fff" />
-        </ArrowBack> */}
-        
         <Container>
           <Form>
             <View>
@@ -123,15 +118,6 @@ const NewInvoice = ({ navigation, modalVisible, hideModal }) => {
           </Form>
         </Container>     
       </Background>
-    // <Modal
-    //   animationType="slide"
-    //   visible={modalVisible}
-    //   onRequestClose={() => {
-    //     hideModal()
-    //   }}
-    // >
-      
-    // </Modal>
   )
 }
 
