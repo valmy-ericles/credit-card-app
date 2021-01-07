@@ -66,5 +66,4 @@ export const CardEditButton = styled(CircleEditButton)`
 `;
 
 export const CardTrashButton = styled(CircleTrashButton)`
-  align-items: center;
 `;

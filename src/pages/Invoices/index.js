@@ -11,14 +11,22 @@ import CardInvoice2 from '../../components/CardInvoice2';
 import { ActionsContainer, AddButton } from './styles';
 
 const invoices = [
-  { cardName: 'Nubank', dueDate: '23/01/2021', totalvalue: '45,60', paid: true },
-  { cardName: 'Next', dueDate: '23/01/2021', totalvalue: '45,60', paid: false },
-  { cardName: 'Itaú', dueDate: '23/01/2021', totalvalue: '63,00', paid: false},
-  { cardName: 'Nubank', dueDate: '23/01/2021', totalvalue: '55,60', paid: false},
-  { cardName: 'Bradeso', dueDate: '23/01/2021', totalvalue: '45,60', paid: false},
-  { cardName: 'Nubank', dueDate: '23/01/2021', totalvalue: '865,60', paid: true},
-  { cardName: 'Bradesco', dueDate: '23/01/2021', totalvalue: '45,60', paid: false},
-  { cardName: 'Nubank', dueDate: '23/01/2021', totalvalue: '55,00', paid: false},
+  { cardName: 'Nubank', dueDate: '23/01/2021', totalValue: '45,00', paid: true },
+  { cardName: 'Next', dueDate: '23/01/2021', totalValue: '45,60', paid: false },
+  { cardName: 'Itaú', dueDate: '23/01/2021', totalValue: '63,00', paid: false},
+  { cardName: 'Nubank', dueDate: '23/01/2021', totalValue: '55,60', paid: false},
+  { cardName: 'Bradeso', dueDate: '23/01/2021', totalValue: '45,60', paid: false},
+  { cardName: 'Nubank', dueDate: '23/01/2021', totalValue: '865,60', paid: true},
+  { cardName: 'Bradesco', dueDate: '23/01/2021', totalValue: '45,60', paid: false},
+  { cardName: 'Nubank', dueDate: '23/01/2021', totalValue: '55,00', paid: false},
+  { cardName: 'Nubank', dueDate: '23/01/2021', totalValue: '45,00', paid: true },
+  { cardName: 'Next', dueDate: '23/01/2021', totalValue: '45,60', paid: false },
+  { cardName: 'Itaú', dueDate: '23/01/2021', totalValue: '63,00', paid: false},
+  { cardName: 'Nubank', dueDate: '23/01/2021', totalValue: '55,60', paid: false},
+  { cardName: 'Bradeso', dueDate: '23/01/2021', totalValue: '45,60', paid: false},
+  { cardName: 'Nubank', dueDate: '23/01/2021', totalValue: '865,60', paid: true},
+  { cardName: 'Bradesco', dueDate: '23/01/2021', totalValue: '45,60', paid: false},
+  { cardName: 'Nubank', dueDate: '23/01/2021', totalValue: '55,00', paid: false},
 ]
 
 const Invoices = ({ navigation }) => {
