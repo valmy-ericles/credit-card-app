@@ -4573,7 +4573,7 @@ promise@^8.0.3:
   dependencies:
     asap "~2.0.6"
 
-prop-types@^15.5.10, prop-types@^15.5.9, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.10, prop-types@^15.5.7, prop-types@^15.5.9, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -4653,6 +4653,13 @@ react-native-custom-dropdown@^1.0.1:
   integrity sha512-pfMc7WaVkT8cubnN6GC9bpl8EDHa62Rs1C6ua16epnr0Berq0SbHNa4HCNtqqIGGrAN6rlX3uSkMEwHA+ROCsQ==
   dependencies:
     prop-types "^15.7.2"
+    react-native-vector-icons "^7.0.0"
+
+react-native-dropdown-picker@^3.7.8:
+  version "3.7.8"
+  resolved "https://registry.yarnpkg.com/react-native-dropdown-picker/-/react-native-dropdown-picker-3.7.8.tgz#fdc79eef1dab4f86b74a565e93ed65406825b0c6"
+  integrity sha512-9WKUgvVK0Pv1ujwp71DikKyjF7ftxQGJLPRizD6LaDcoHxgxtqsnDQcj92PV1iEydwfEDynL7ogy2h/HG0ETbA==
+  dependencies:
     react-native-vector-icons "^7.0.0"
 
 react-native-gesture-handler@~1.8.0:
@@ -5519,6 +5526,13 @@ to-regex@^3.0.1, to-regex@^3.0.2:
     extend-shallow "^3.0.2"
     regex-not "^1.0.2"
     safe-regex "^1.1.0"
+
+toggle-switch-react-native@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/toggle-switch-react-native/-/toggle-switch-react-native-2.3.0.tgz#f58e2db1535837f08811d917ebc2c632c8ec883d"
+  integrity sha512-sq5r0Yu7GEwHTVFmL0HOOmliYX7edT1DTS8Zq9R927JaVnWeU5z6+TM5nxU190JkpeACCQVXyioDM/C1GdRitA==
+  dependencies:
+    prop-types "^15.5.7"
 
 toidentifier@1.0.0:
   version "1.0.0"

@@ -8,6 +8,7 @@ import Signup from './pages/Signup';
 
 import Dashboard from './pages/Dashboard';
 import Invoices from './pages/Invoices';
+import NewInvoice from './pages/NewInvoice';
 
 import TabButton from './components/TabButton';
 
@@ -23,6 +24,24 @@ const titles = {
 
 export default ({ signed = false }) => {
 
+  const InvoiceStack = () => {
+    return(
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: '#615E86',
+            elevation: 0,
+            shadowOpacity: 0,
+          },
+          headerTintColor: '#fff'
+        }}
+      >
+        <Stack.Screen options={{ title: 'Faturas' }} name="Invoices" component={Invoices} />
+        <Stack.Screen options={{ title: 'Nova Fatura' }} name="NewInvoice" component={NewInvoice} />
+      </Stack.Navigator>
+    )
+  }
+  
   if(signed) {
     return (
       <Tab.Navigator
@@ -53,7 +72,7 @@ export default ({ signed = false }) => {
         }}
       >
         <Tab.Screen options={{ title: 'Home' }} name="Dashboard" component={Dashboard} />
-        <Tab.Screen options={{ title: 'Faturas' }} name="Invoices" component={Invoices} />
+        <Tab.Screen options={{ title: 'Faturas' }} name="Invoices" component={InvoiceStack} />
         <Tab.Screen options={{ title: 'Cartões' }} name="CreditCards" component={Dashboard} />
         <Tab.Screen options={{ title: 'Perfil' }} name="Profile" component={Dashboard} />
       </Tab.Navigator>

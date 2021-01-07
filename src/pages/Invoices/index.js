@@ -8,10 +8,17 @@ import { AntDesign } from '@expo/vector-icons';
 import { Container, InvoiceScroll } from './styles';
 import CardInvoice2 from '../../components/CardInvoice2';
 
+import ModalNewInvoice from '../NewInvoice';
+
 import { ActionsContainer, AddButton } from './styles';
 
 const Invoices = ({ navigation }) => {
   const [kindInvoice, setKindInvoice] = useState('payed')
+  const [modalVisible, setModalVisible] = useState(false);
+  
+  const hideModal = () => {
+    setModalVisible(false)
+  }
 
   return (
     <Background>
@@ -47,7 +54,7 @@ const Invoices = ({ navigation }) => {
               onChangeItem={text => setKindInvoice(text)}
           />
 
-          <AddButton>
+          <AddButton onPress={() => navigation.navigate('NewInvoice')}>
             <AntDesign name="plus" size={24} color="#fff" />
           </AddButton>
 
