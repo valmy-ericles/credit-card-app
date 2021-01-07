@@ -15,7 +15,7 @@ import {
 
 import { AntDesign } from '@expo/vector-icons';
 
-export default CardInvoice = ({ cardName, totalValue, dueDate, paid = false }) => {
+export default CardInvoice = ({ navigation, cardName, totalValue, dueDate, paid = false }) => {
   return (
     <Container>
       <>
@@ -40,7 +40,7 @@ export default CardInvoice = ({ cardName, totalValue, dueDate, paid = false }) =
         </BodyValue>
         
         <Actions>
-          <CardEditButton/>
+          <CardEditButton onPress={() => navigation.navigate('EditInvoice')} />
           <CardTrashButton/>
         </Actions>
       </>

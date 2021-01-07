@@ -9,6 +9,7 @@ import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import Invoices from './pages/Invoices';
 import NewInvoice from './pages/NewInvoice';
+import EditInvoice from './pages/EdtiInvoice';
 
 import TabButton from './components/TabButton';
 
@@ -38,6 +39,7 @@ export default ({ signed = false }) => {
       >
         <Stack.Screen options={{ title: 'Faturas' }} name="Invoices" component={Invoices} />
         <Stack.Screen options={{ title: 'Nova Fatura' }} name="NewInvoice" component={NewInvoice} />
+        <Stack.Screen options={{ title: 'Editar Fatura' }} name="EditInvoice" component={EditInvoice} />
       </Stack.Navigator>
     )
   }

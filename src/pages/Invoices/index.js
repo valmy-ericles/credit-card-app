@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { TouchableHighlight } from 'react-native';
 
 import DropDownPicker from "react-native-custom-dropdown";
 
@@ -8,17 +9,20 @@ import { AntDesign } from '@expo/vector-icons';
 import { Container, InvoiceScroll } from './styles';
 import CardInvoice2 from '../../components/CardInvoice2';
 
-import ModalNewInvoice from '../NewInvoice';
-
 import { ActionsContainer, AddButton } from './styles';
 
+const invoices = [
+  { cardName: 'Nubank', dueDate: '23/01/2021', totalvalue: '45,60', paid: true },
+  { cardName: 'Next', dueDate: '23/01/2021', totalvalue: '45,60', paid: false },
+  { cardName: 'Itaú', dueDate: '23/01/2021', totalvalue: '63,00', paid: false},
+  { cardName: 'Nubank', dueDate: '23/01/2021', totalvalue: '55,60', paid: false},
+  { cardName: 'Bradeso', dueDate: '23/01/2021', totalvalue: '45,60', paid: false},
+  { cardName: 'Nubank', dueDate: '23/01/2021', totalvalue: '865,60', paid: true},
+  { cardName: 'Bradesco', dueDate: '23/01/2021', totalvalue: '45,60', paid: false},
+  { cardName: 'Nubank', dueDate: '23/01/2021', totalvalue: '55,00', paid: false},
+]
+
 const Invoices = ({ navigation }) => {
-  const [kindInvoice, setKindInvoice] = useState('payed')
-  const [modalVisible, setModalVisible] = useState(false);
-  
-  const hideModal = () => {
-    setModalVisible(false)
-  }
 
   return (
     <Background>
@@ -60,17 +64,20 @@ const Invoices = ({ navigation }) => {
 
         </ActionsContainer>
         <InvoiceScroll>
-          <CardInvoice2 cardName="Nubank" totalValue={'86,50'} dueDate={'25/01/2021'} />
-          <CardInvoice2 paid cardName="Nubank" totalValue={'86,50'} dueDate={'25/01/2021'} />
-          <CardInvoice2 cardName="Nubank" totalValue={'86,50'} dueDate={'25/01/2021'} />
-          <CardInvoice2 paid cardName="Nubank" totalValue={'86,50'} dueDate={'25/01/2021'} />
-          <CardInvoice2 cardName="Nubank" totalValue={'86,50'} dueDate={'25/01/2021'} />
-          <CardInvoice2 cardName="Nubank" totalValue={'86,50'} dueDate={'25/01/2021'} />
-          <CardInvoice2 cardName="Nubank" totalValue={'86,50'} dueDate={'25/01/2021'} />
-          <CardInvoice2 paid cardName="Nubank" totalValue={'86,50'} dueDate={'25/01/2021'} />
-          <CardInvoice2 cardName="Nubank" totalValue={'86,50'} dueDate={'25/01/2021'} />
-          <CardInvoice2 cardName="Nubank" totalValue={'86,50'} dueDate={'25/01/2021'} />
-          <CardInvoice2 cardName="Nubank" totalValue={'86,50'} dueDate={'25/01/2021'} />
+          {
+            invoices.map(({ cardName, dueDate, totalValue, paid }, index) => {
+              return (
+                <CardInvoice2
+                  navigation={navigation}
+                  key={index} 
+                  cardName={cardName} 
+                  totalValue={totalValue} 
+                  dueDate={dueDate} 
+                  paid={paid}
+                />
+              )
+            })
+          }
         </InvoiceScroll>
       </Container>     
     </Background>
