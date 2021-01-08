@@ -7,7 +7,7 @@ const CreditCard = ({ name, navigation }) => {
     <Container>
       <Name>{name}</Name>
       <Actions>
-        <EditButton onPress={() => navigation.navigate('EditInvoice')} />
+        <EditButton onPress={() => navigation.navigate('EditCreditCard')} />
         <TrashButton />
       </Actions>
     </Container>

@@ -13,6 +13,7 @@ import EditInvoice from './pages/EdtiInvoice';
 import Profile from './pages/Profile';
 import CreditCards from './pages/CreditCards';
 import NewCreditCard from './pages/NewCreditCard';
+import EditCreditCard from './pages/EditCreditCard';
 
 import TabButton from './components/TabButton';
 
@@ -61,6 +62,7 @@ export default ({ signed = false }) => {
       >
         <Stack.Screen options={{ title: 'Seus cartões' }} name="CreditCards" component={CreditCards} />
         <Stack.Screen options={{ title: 'Novo cartão' }} name="NewCreditCard" component={NewCreditCard} />
+        <Stack.Screen options={{ title: 'Editar cartão' }} name="EditCreditCard" component={EditCreditCard} />
       </Stack.Navigator>
     )
   }
