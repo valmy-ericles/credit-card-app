@@ -20,7 +20,7 @@ const CreditCards = ({ navigation }) => {
     <Background>
       <Container>
         <ActionsContainer>
-          <AddButton onPress={() => navigation.navigate('NewInvoice')}>
+          <AddButton onPress={() => navigation.navigate('NewCreditCard')}>
             <AntDesign name="plus" size={24} color="#fff" />
           </AddButton>
         </ActionsContainer>

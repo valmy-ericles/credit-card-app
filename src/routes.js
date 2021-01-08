@@ -12,6 +12,7 @@ import NewInvoice from './pages/NewInvoice';
 import EditInvoice from './pages/EdtiInvoice';
 import Profile from './pages/Profile';
 import CreditCards from './pages/CreditCards';
+import NewCreditCard from './pages/NewCreditCard';
 
 import TabButton from './components/TabButton';
 
@@ -42,6 +43,24 @@ export default ({ signed = false }) => {
         <Stack.Screen options={{ title: 'Faturas' }} name="Invoices" component={Invoices} />
         <Stack.Screen options={{ title: 'Nova Fatura' }} name="NewInvoice" component={NewInvoice} />
         <Stack.Screen options={{ title: 'Editar Fatura' }} name="EditInvoice" component={EditInvoice} />
+      </Stack.Navigator>
+    )
+  }
+
+  const CreditCardStack = () => {
+    return(
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: '#615E86',
+            elevation: 0,
+            shadowOpacity: 0,
+          },
+          headerTintColor: '#fff'
+        }}
+      >
+        <Stack.Screen options={{ title: 'Seus cartões' }} name="CreditCards" component={CreditCards} />
+        <Stack.Screen options={{ title: 'Novo cartão' }} name="NewCreditCard" component={NewCreditCard} />
       </Stack.Navigator>
     )
   }
@@ -77,7 +96,7 @@ export default ({ signed = false }) => {
       >
         <Tab.Screen options={{ title: 'Home' }} name="Dashboard" component={Dashboard} />
         <Tab.Screen options={{ title: 'Faturas' }} name="Invoices" component={InvoiceStack} />
-        <Tab.Screen options={{ title: 'Cartões' }} name="CreditCards" component={CreditCards} />
+        <Tab.Screen options={{ title: 'Cartões' }} name="CreditCards" component={CreditCardStack} />
         <Tab.Screen options={{ title: 'Perfil' }} name="Profile" component={Profile} />
       </Tab.Navigator>
     )
