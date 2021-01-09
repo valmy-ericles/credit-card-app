@@ -34,7 +34,22 @@ export function* logout() {
   }
 }
 
+export function* deleteAccount() {
+
+  yield delay(2000)
+
+  try {
+    //yield call(api.delete, 'api/projeto/logout')
+
+    yield put(Actions.deleteAccountSuccess())
+
+  } catch(err) {
+    yield put(Actions.deleteAccountFailed(err))
+  }
+}
+
 export default all([
   takeLatest(Types.LOGIN_REQUEST, login),
-  takeLatest(Types.LOGOUT_REQUEST, logout)
+  takeLatest(Types.LOGOUT_REQUEST, logout),
+  takeLatest(Types.DELETE_ACCOUNT_REQUEST, deleteAccount),
 ])

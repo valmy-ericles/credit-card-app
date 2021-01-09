@@ -1,14 +1,9 @@
-import React, { useCallback, useState } from 'react';
-
-import { useFocusEffect } from '@react-navigation/native';
+import React, { useCallback } from 'react';
 import { RefreshControl } from 'react-native';
-
 import { useSelector, useDispatch } from 'react-redux';
 
+import { useFocusEffect } from '@react-navigation/native';
 import { RectButton } from 'react-native-gesture-handler';
-
-import Background from '../../components/Background';
-import Separator from '../../components/separator';
 
 import BannerInvoice from '../../components/BannerResumeInvoice';
 import CardInvoice from '../../components/CardInvoice';
@@ -25,6 +20,9 @@ import {
   RecentInvoices,
   RecentInvoicesTitle
 } from './styles';
+
+import Background from '../../components/Background';
+import Separator from '../../components/separator';
 
 import { Actions as DashboardActions } from '../../store/modules/dashboard/actions';
 import { Actions as ProfileActions } from '../../store/modules/profile/actions';

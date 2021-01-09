@@ -2,10 +2,12 @@ import produce from 'immer';
 import { Types } from './actions';
 
 const initialState = {
-  test: 'aaaa',
   signed: true,
   token: null,
+  
   loading: false,
+  loadingLogout: false,
+  deletingAccount: false,
 }
 
 export default function auth(state = initialState, action) {
@@ -26,17 +28,30 @@ export default function auth(state = initialState, action) {
         break;
       }
       case Types.LOGOUT_REQUEST: {
-        draft.loading = true
+        draft.loadingLogout = true
         break;
       }
       case Types.LOGOUT_SUCCESS: {
-        draft.loading = false
+        draft.loadingLogout = false
         draft.token = null
         draft.signed = false
         break;
       }
       case Types.LOGOUT_FAILED: {
-        draft.loading = true
+        draft.loadingLogout = true
+        break;
+      }
+      case Types.DELETE_ACCOUNT_REQUEST: {
+        draft.deletingAccount = true
+        break;
+      }
+      case Types.DELETE_ACCOUNT_SUCCESS: {
+        draft.deletingAccount = false
+        draft.signed = false
+        break;
+      }
+      case Types.DELETE_ACCOUNT_FAILED: {
+        draft.deletingAccount = true
         break;
       }
       default:

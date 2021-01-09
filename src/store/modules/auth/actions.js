@@ -6,6 +6,10 @@ export const Types = {
   LOGOUT_REQUEST: '@auth/LOGOUT_REQUEST',
   LOGOUT_SUCCESS: '@auth/LOGOUT_SUCCESS',
   LOGOUT_FAILED: '@auth/LOGOUT_FAILED',
+
+  DELETE_ACCOUNT_REQUEST: '@auth/DELETE_ACCOUNT_REQUEST',
+  DELETE_ACCOUNT_SUCCESS: '@auth/DELETE_ACCOUNT_SUCCESS',
+  DELETE_ACCOUNT_FAILED: '@auth/DELETE_ACCOUNT_FAILED',
 }
 
 export const Actions = {
@@ -36,6 +40,20 @@ export const Actions = {
   
   logoutFailed: (err) => ({
     type: Types.LOGOUT_FAILED,
+    payload: { err }
+  }),
+
+
+  deleteAccountRequest: () => ({
+    type: Types.DELETE_ACCOUNT_REQUEST
+  }),
+  
+  deleteAccountSuccess: () => ({
+    type: Types.DELETE_ACCOUNT_SUCCESS
+  }),
+  
+  deleteAccountFailed: (err) => ({
+    type: Types.DELETE_ACCOUNT_FAILED,
     payload: { err }
   }),
 }

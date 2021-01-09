@@ -1,12 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, View, Keyboard } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { StyleSheet, View, KeyboardAvoidingView, Platform } from 'react-native';
 
+import { useFocusEffect } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import Background from '../../components/Background';
-
-import { Actions } from '../../store/modules/auth/actions';
+import { TextInputMask } from 'react-native-masked-text'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import {
   Container,
@@ -16,53 +15,73 @@ import {
   ButtonActions,
   LogoutButton,
   DeleteAccoutnButton,
+  PasswordInputs,
+  ProfileSeparator
 } from './styles';
-import { TextInputMask } from 'react-native-masked-text'
+
+import Background from '../../components/Background';
+
+import { Actions as AuthActions } from '../../store/modules/auth/actions';
+import { Actions as ProfileActions } from '../../store/modules/profile/actions';
 
 const Signup = ({ navigation }) => {
-  const passwordRef = useRef();
+
+  const dispatch = useDispatch()
+
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(ProfileActions.loadProfileRequest())
+    }, [])
+  );
+
   const emailRef = useRef();
   const cpfRef = useRef();
   const phoneRef = useRef();
+  
+  const currentPasswordRef = useRef();
+  const newPasswordRef = useRef();
+  const newPasswordConfirmationRef = useRef();
 
-  const [cpf, setCPF] = useState('');
-  const [phone, setPhone] = useState('');
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [newPasswordConfirmation, setNewPasswordConfirmation] = useState('');
 
-  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-
-  const dispatch = useDispatch();
-
-  const { loading } = useSelector(state => state.auth)
+  const auth = useSelector(state => state.auth)
+  const profile = useSelector(state => state.profile)
 
   useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
-      () => {
-        setKeyboardVisible(true);
-      }
-    );
-    const keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      () => {
-        setKeyboardVisible(false);
-      }
-    );
-
-    return () => {
-      keyboardDidHideListener.remove();
-      keyboardDidShowListener.remove();
-    };
-  }, []);
+    setCurrentPassword('')
+    setNewPassword('')
+    setNewPasswordConfirmation('')
+  }, [profile.updating]);
 
   function handleSubmit() {
-    dispatch(Actions.loginFailed('teste'))
+    dispatch(ProfileActions.updateProfileRequest(
+      profile.userName,
+      profile.userEmail,
+      profile.userCPF,
+      profile.userPhone,
+      currentPassword
+    ))
   }
 
+  function handleOnChangeText(input, value) {
+    dispatch(ProfileActions.handleOnChangeText(input, value))
+  }
+  
   function logout() {
-    dispatch(Actions.logoutRequest())
+    dispatch(AuthActions.logoutRequest())
+  }
+
+  function deleteAccount() {
+    dispatch(AuthActions.deleteAccountRequest())
   }
 
   return (
+    <KeyboardAvoidingView
+      behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+      style={styles.container}
+    >
     <Background>
       <Container>
         <Form>
@@ -72,6 +91,8 @@ const Signup = ({ navigation }) => {
             autoCorrect={false}
             placeholder="Nome completo"
             returnKeyType="next"
+            value={profile.userName}
+            onChangeText={value => handleOnChangeText('userName', value)}
             onSubmitEditing={() => emailRef.current.focus()}
           />
 
@@ -83,6 +104,8 @@ const Signup = ({ navigation }) => {
             placeholder="Digite seu email"
             returnKeyType="next"
             ref={emailRef}
+            value={profile.userEmail}
+            onChangeText={value => handleOnChangeText('userEmail', value)}
             onSubmitEditing={() => cpfRef.current._inputElement.focus()}
           />
 
@@ -90,14 +113,14 @@ const Signup = ({ navigation }) => {
             <MaterialCommunityIcons name={'file-document-outline'} size={25} color="#E0E0E0" />
             <TextInputMask
               type={'cpf'}
-              value={cpf}
               style={styles.input}
               placeholder="Digite seu CPF"
               autoCapitalize="none"
               placeholderTextColor='#E7E7E7'
               returnKeyType="next"
-              onChangeText={text => setCPF(text)}
               ref={cpfRef}
+              value={profile.userCPF}
+              onChangeText={value => handleOnChangeText('userCPF', value)}
               onSubmitEditing={() => phoneRef.current._inputElement.focus()}
             />
           </View>
@@ -111,49 +134,80 @@ const Signup = ({ navigation }) => {
                 withDDD: true,
                 dddMask: '(99) '
               }}
-              value={phone}
               style={styles.input}
               placeholder="Digite seu celular"
               autoCapitalize="none"
               placeholderTextColor='#E7E7E7'
               returnKeyType="next"
-              onChangeText={text => setPhone(text)}
               ref={phoneRef}
+              value={profile.userPhone}
+              onChangeText={value => handleOnChangeText('userPhone', value)}
               onSubmitEditing={() => passwordRef.current.focus()}
             />
           </View>
-
-          <FormInput
-            icon="lock-outline"
-            secureTextEntry
-            placeholder="Digite sua senha"
-            returnKeyType="send"
-            ref={passwordRef}
-            onSubmitEditing={handleSubmit}
-          />
           
-          <SubmitButton onPress={handleSubmit}>
-            Finalizar
+          <ProfileSeparator/>
+        
+          <PasswordInputs>
+            <FormInput
+                icon="lock-outline"
+                secureTextEntry
+                placeholder="Senha atual"
+                returnKeyType="send"
+                ref={currentPasswordRef}
+                value={currentPassword}
+                onChangeText={value => setCurrentPassword(value)}
+                onSubmitEditing={handleSubmit}
+              />
+
+              <FormInput
+                icon="lock-outline"
+                secureTextEntry
+                placeholder="Nova senha"
+                returnKeyType="send"
+                ref={newPasswordRef}
+                value={newPassword}
+                onChangeText={value => setNewPassword(value)}
+                onSubmitEditing={handleSubmit}
+              />
+
+              <FormInput
+                icon="lock-outline"
+                secureTextEntry
+                placeholder="Confirmar nova senha"
+                returnKeyType="send"
+                ref={newPasswordConfirmationRef}
+                value={newPasswordConfirmation}
+                onChangeText={value => setNewPasswordConfirmation(value)}
+                onSubmitEditing={handleSubmit}
+              />
+          </PasswordInputs>
+
+          <SubmitButton loading={profile.updating} onPress={handleSubmit}>
+            Salvar
           </SubmitButton>
         </Form>
+      
+        <ButtonActions>
+          <LogoutButton icon="logout" loading={auth.loadingLogout} onPress={logout}>
+            Sair
+          </LogoutButton>
 
-        {!isKeyboardVisible &&
-          <ButtonActions>
-            <LogoutButton loading={loading} onPress={logout}>
-              Sair
-            </LogoutButton>
-
-            <DeleteAccoutnButton onPress={handleSubmit}>
-              Apagar conta
-            </DeleteAccoutnButton>
-          </ButtonActions>
-        }
+          <DeleteAccoutnButton icon="delete-outline" loading={auth.deletingAccount} onPress={deleteAccount}>
+            Deletar conta
+          </DeleteAccoutnButton>
+        </ButtonActions>
+        
       </Container>     
     </Background>
+    </KeyboardAvoidingView>
   )
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   containerInput: {
     paddingTop: 0,
     paddingHorizontal: 15,
