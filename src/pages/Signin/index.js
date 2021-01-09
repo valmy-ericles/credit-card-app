@@ -1,15 +1,32 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Background from '../../components/Background';
 import { MaterialIcons } from '@expo/vector-icons';
 
-import { Container, Form, FormInput, SubmitButton, SignupLink, SignupLinkText } from './styles';
+import {
+  Container,
+  Form,
+  FormInput,
+  SubmitButton,
+  SignupLink,
+  SignupLinkText 
+} from './styles';
+
+import { Actions } from '../../store/modules/auth/actions';
 
 const Signin = ({ navigation }) => {
   const passwordRef = useRef();
 
-  function handleSubmit() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
+  const dispatch = useDispatch();
+
+  const { loading } = useSelector(state => state.auth)
+
+  function handleSubmit() {
+    dispatch(Actions.loginRequest(email, password))
   }
 
   return (
@@ -24,6 +41,7 @@ const Signin = ({ navigation }) => {
             autoCorrect={false}
             placeholder="Digite seu email"
             returnKeyType="next"
+            onChangeText={text => setEmail(text)}
             onSubmitEditing={() => passwordRef.current.focus()}
           />
           
@@ -33,10 +51,11 @@ const Signin = ({ navigation }) => {
             placeholder="Digite sua senha"
             ref={passwordRef}
             returnKeyType="send"
+            onChangeText={text => setPassword(text)}
             onSubmitEditing={handleSubmit}
           />
 
-          <SubmitButton onPress={handleSubmit}>
+          <SubmitButton loading={loading} onPress={handleSubmit}>
             Acessar
           </SubmitButton>
         </Form>

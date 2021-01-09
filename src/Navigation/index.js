@@ -3,19 +3,16 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import Signin from './pages/Signin';
-import Signup from './pages/Signup';
+import Signin from '../pages/Signin';
+import Signup from '../pages/Signup';
 
-import Dashboard from './pages/Dashboard';
-import Invoices from './pages/Invoices';
-import NewInvoice from './pages/NewInvoice';
-import EditInvoice from './pages/EdtiInvoice';
-import Profile from './pages/Profile';
-import CreditCards from './pages/CreditCards';
-import NewCreditCard from './pages/NewCreditCard';
-import EditCreditCard from './pages/EditCreditCard';
+import Dashboard from '../pages/Dashboard';
+import Profile from '../pages/Profile';
 
-import TabButton from './components/TabButton';
+import InvoiceStack from './invoiceRoutes';
+import CreditCardStack from './creditCardRoutes';
+
+import TabButton from '../components/TabButton';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -28,44 +25,6 @@ const titles = {
 }
 
 export default ({ signed = false }) => {
-
-  const InvoiceStack = () => {
-    return(
-      <Stack.Navigator
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: '#615E86',
-            elevation: 0,
-            shadowOpacity: 0,
-          },
-          headerTintColor: '#fff'
-        }}
-      >
-        <Stack.Screen options={{ title: 'Faturas' }} name="Invoices" component={Invoices} />
-        <Stack.Screen options={{ title: 'Nova Fatura' }} name="NewInvoice" component={NewInvoice} />
-        <Stack.Screen options={{ title: 'Editar Fatura' }} name="EditInvoice" component={EditInvoice} />
-      </Stack.Navigator>
-    )
-  }
-
-  const CreditCardStack = () => {
-    return(
-      <Stack.Navigator
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: '#615E86',
-            elevation: 0,
-            shadowOpacity: 0,
-          },
-          headerTintColor: '#fff'
-        }}
-      >
-        <Stack.Screen options={{ title: 'Seus cartões' }} name="CreditCards" component={CreditCards} />
-        <Stack.Screen options={{ title: 'Novo cartão' }} name="NewCreditCard" component={NewCreditCard} />
-        <Stack.Screen options={{ title: 'Editar cartão' }} name="EditCreditCard" component={EditCreditCard} />
-      </Stack.Navigator>
-    )
-  }
   
   if(signed) {
     return (

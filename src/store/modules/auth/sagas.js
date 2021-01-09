@@ -1,34 +1,40 @@
-import { all, takeLatest, call, put } from 'redux-saga/effects';
+import { all, call, takeLatest, put, delay } from 'redux-saga/effects';
 
 import api from '../../../services/api';
 
-import { signInSuccess } from './actions';
+import { Types, Actions } from './actions';
 
-export function* signIn({ payload }) {
+export function* login({ payload }) {
   const { email, password } = payload
-  console.log(payload)
+  
+  yield delay(2000)
 
   try {
-    const response = yield call(api.post, 'sessions', {
-      email,
-      password
-    });
+    //const result = yield call(api.post, 'api/projeto/login', { email, password });
 
-    console.log(response)
-    const { token, user } = response.data;
-  
-    if(!user.provider) {
-      console.tron.error('usuário não é prestador');
-      return;
-    }
-  
-    yield put(signInSuccess(token, user))
-  
-    // history.push('/dashboard');
+    const token = 'xxx'
+
+    yield put(Actions.loginSuccess(token))   
   } catch(err) {
+    yield put(Actions.loginFailed(err))
+  }
+}
+
+export function* logout() {
+
+  yield delay(2000)
+
+  try {
+    //yield call(api.delete, 'api/projeto/logout')
+
+    yield put(Actions.logoutSuccess())
+
+  } catch(err) {
+    yield put(Actions.logoutFailed(err))
   }
 }
 
 export default all([
-  takeLatest('@auth/SIGN_IN_REQUEST', signIn)
-]);
+  takeLatest(Types.LOGIN_REQUEST, login),
+  takeLatest(Types.LOGOUT_REQUEST, logout)
+])

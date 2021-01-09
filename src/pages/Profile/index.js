@@ -2,7 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View, Keyboard } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+import { useDispatch, useSelector } from 'react-redux';
+
 import Background from '../../components/Background';
+
+import { Actions } from '../../store/modules/auth/actions';
 
 import {
   Container,
@@ -26,6 +30,10 @@ const Signup = ({ navigation }) => {
 
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
+  const dispatch = useDispatch();
+
+  const { loading } = useSelector(state => state.auth)
+
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
@@ -47,7 +55,11 @@ const Signup = ({ navigation }) => {
   }, []);
 
   function handleSubmit() {
-    
+    dispatch(Actions.loginFailed('teste'))
+  }
+
+  function logout() {
+    dispatch(Actions.logoutRequest())
   }
 
   return (
@@ -127,7 +139,7 @@ const Signup = ({ navigation }) => {
 
         {!isKeyboardVisible &&
           <ButtonActions>
-            <LogoutButton onPress={handleSubmit}>
+            <LogoutButton loading={loading} onPress={logout}>
               Sair
             </LogoutButton>
 
