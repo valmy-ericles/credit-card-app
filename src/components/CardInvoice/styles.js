@@ -12,7 +12,7 @@ export const Container = styled.View`
 `;
 
 export const Details = styled.View`
-  
+  min-width: 120px;
 `;
 
 export const CardName = styled.Text`
@@ -33,6 +33,7 @@ export const DueDate = styled.Text`
 
 export const Paid = styled.View`
   flex-direction: row;
+  width: 70px;
   background: #7D4996;
   border-radius: 50px;
   padding: 2px 5px;

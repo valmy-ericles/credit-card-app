@@ -1,5 +1,10 @@
-import React from 'react';
-import { TouchableHighlight } from 'react-native';
+import React, { useCallback, useState } from 'react';
+
+import { useFocusEffect } from '@react-navigation/native';
+import { RefreshControl } from 'react-native';
+
+import { useSelector, useDispatch } from 'react-redux';
+
 import { RectButton } from 'react-native-gesture-handler';
 
 import Background from '../../components/Background';
@@ -21,17 +26,47 @@ import {
   RecentInvoicesTitle
 } from './styles';
 
+import { Actions } from '../../store/modules/dashboard/actions';
+
 const Dashboard = ({ navigation }) => {
+  const dispatch = useDispatch();
+
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(Actions.loadInvoicesRequest())
+    }, [])
+  );
+
+  const { 
+    totalDebits,
+    paidInvoices,
+    paidInvoicesQuantity,
+    pendingInvoices,
+    pendingInvoicesQuantity,
+    recentInvoices,
+    loading,
+    refreshing,
+  } = useSelector(state => state.dashboard)
+
+  const onRefresh = useCallback(() => {
+    const isRefreshing = true
+    dispatch(Actions.loadInvoicesRequest(isRefreshing))
+  }, []);
+
   return (
     <Background>
-      <Container>
+      <Container
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <Header>
           <UserName>
             Olá, Valmy
           </UserName>
           <TotalDebitsBody>
             <TotalDebitsText>Débitos totais</TotalDebitsText>
-            <TotalDebitsValue>R$ 4945,60</TotalDebitsValue>
+            <TotalDebitsValue>R$ {totalDebits}</TotalDebitsValue>
           </TotalDebitsBody>
         </Header>
 
@@ -39,21 +74,19 @@ const Dashboard = ({ navigation }) => {
 
         <InvoicesResume>
           <InvoicesTitle>Resumo das Faturas</InvoicesTitle>
-          <BannerInvoice title="Pagas" totalValue={"4945,60"} quantity={16} colorText="blue" />
-          <BannerInvoice title="Pendentes" totalValue={"346,20"} quantity={2} colorText="red" />
+          <BannerInvoice title="Pagas" totalValue={paidInvoices} quantity={paidInvoicesQuantity} colorText="blue" />
+          <BannerInvoice title="Pendentes" totalValue={pendingInvoices} quantity={pendingInvoicesQuantity} colorText="red" />
         </InvoicesResume>
 
         <RecentInvoices>
           <RecentInvoicesTitle>Faturas recentes</RecentInvoicesTitle>
-          
-          <RectButton onPress={() => navigation.navigate('Invoices')}>
-            <CardInvoice paid={false} cardName="Nubank" totalValue={'86,50'} dueDate={'25/01/2021'} />
-          </RectButton>
-
-          <CardInvoice paid cardName="Nubank" totalValue={'86,50'} dueDate={'25/01/2021'} />
-          <CardInvoice paid={false} cardName="Itaú" totalValue={'86,50'} dueDate={'25/01/2021'} />
-          <CardInvoice paid cardName="Nubank" totalValue={'86,50'} dueDate={'25/01/2021'} />
-          <CardInvoice paid={false} cardName="Nubank" totalValue={'86,50'} dueDate={'25/01/2021'} />
+          {recentInvoices.map(item => {
+            return (
+              <RectButton key={item.id} onPress={() => navigation.navigate('EditInvoice')}>
+                <CardInvoice paid={item.paid} cardName={item.cardName} totalValue={item.totalValue} dueDate={item.dueDate} />
+              </RectButton>
+            )
+          })}
         </RecentInvoices>
       </Container>
     </Background>
