@@ -26,16 +26,20 @@ import {
   RecentInvoicesTitle
 } from './styles';
 
-import { Actions } from '../../store/modules/dashboard/actions';
+import { Actions as DashboardActions } from '../../store/modules/dashboard/actions';
+import { Actions as ProfileActions } from '../../store/modules/profile/actions';
 
 const Dashboard = ({ navigation }) => {
   const dispatch = useDispatch();
 
   useFocusEffect(
     useCallback(() => {
-      dispatch(Actions.loadInvoicesRequest())
+      dispatch(ProfileActions.loadProfileRequest())
+      dispatch(DashboardActions.loadInvoicesRequest())
     }, [])
   );
+
+  const { userName } = useSelector(state => state.profile)
 
   const { 
     totalDebits,
@@ -50,7 +54,7 @@ const Dashboard = ({ navigation }) => {
 
   const onRefresh = useCallback(() => {
     const isRefreshing = true
-    dispatch(Actions.loadInvoicesRequest(isRefreshing))
+    dispatch(DashboardActions.loadInvoicesRequest(isRefreshing))
   }, []);
 
   return (
@@ -62,7 +66,7 @@ const Dashboard = ({ navigation }) => {
       >
         <Header>
           <UserName>
-            Olá, Valmy
+            Olá, {userName}
           </UserName>
           <TotalDebitsBody>
             <TotalDebitsText>Débitos totais</TotalDebitsText>
