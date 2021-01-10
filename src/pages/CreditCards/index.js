@@ -1,21 +1,33 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useFocusEffect } from '@react-navigation/native';
 
-import Background from '../../components/Background';
 import { AntDesign } from '@expo/vector-icons';
 
 import CreditCard from '../../components/CreditCard';
 
-import { Container, AddButton, CreditCardScroll, ActionsContainer } from './styles';
+import {
+  Container,
+  AddButton,
+  CreditCardScroll,
+  ActionsContainer
+} from './styles';
 
-const creditCards = [
-  { name: 'Nubank' },
-  { name: 'Itaú' },
-  { name: 'Bradesco' },
-  { name: 'Next' },
-  { name: 'Banco do Brasil' },
-]
+import Background from '../../components/Background';
+
+import { Actions } from '../../store/modules/creditCards/actions';
 
 const CreditCards = ({ navigation }) => {
+  const dispatch = useDispatch();
+
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(Actions.loadCreditCardsRequest())
+    }, [])
+  );
+  
+  const creditCards = useSelector(state => state.creditCards)
+
   return (
     <Background>
       <Container>
@@ -27,7 +39,7 @@ const CreditCards = ({ navigation }) => {
 
         <CreditCardScroll>
           {
-            creditCards.map(({ name }, index) => {
+            creditCards.creditCards.map(({ name }, index) => {
               return (
                 <CreditCard
                   navigation={navigation}

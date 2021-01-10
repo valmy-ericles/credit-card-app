@@ -16,7 +16,7 @@ export const Actions = {
     payload: { data }
   }),
   
-  LOAD_INVOICES_FAILED: (err) => ({
+  loadInvoicesFailed: (err) => ({
     type: Types.LOAD_INVOICES_FAILED,
     payload: { err }
   }),

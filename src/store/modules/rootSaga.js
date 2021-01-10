@@ -4,6 +4,7 @@ import auth from './auth/sagas';
 import dashboard from './dashboard/sagas';
 import profile from './profile/sagas';
 import invoices from './invoices/sagas';
+import creditCards from './creditCards/sagas';
 
 export default function* rootSaga() {
   return yield all([
@@ -11,5 +12,6 @@ export default function* rootSaga() {
     dashboard,
     profile,
     invoices,
+    creditCards,
   ])
 }

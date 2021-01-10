@@ -28,7 +28,7 @@ export function* loadInvoices() {
 
     yield put(Actions.loadInvoicesSuccess(data))   
   } catch(err) {
-    yield put(Actions.loginFailed(err))
+    yield put(Actions.loadInvoicesFailed(err))
   }
 }
 
