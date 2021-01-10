@@ -6,7 +6,6 @@ import DropDownPicker from 'react-native-dropdown-picker';
 
 import { AntDesign } from '@expo/vector-icons';
 
-
 import {
   ActionsContainer,
   AddButton,

@@ -38,6 +38,67 @@ export function* loadInvoices() {
   }
 }
 
+export function* loadInvoice({ payload }) {
+  const { id } = payload
+
+  yield delay(1000)
+
+  try {
+    //const result = yield call(api.get, `api/projeto/invoices/${id}`);
+    const paid = true
+    const creditCard = 'nubank'
+    const dueDate = '24/01/2021'
+    const value = '150,00'
+
+    yield put(Actions.loadInvoiceSuccess(paid, creditCard, dueDate, value))
+  } catch(err) {
+    yield put(Actions.loadInvoiceFailed(err))
+  }
+}
+
+export function* newInvoice({ payload }) {
+  const { paid, creditCard, dueDate, value } = payload
+  
+  yield delay(2000)
+
+  try {
+    //const result = yield call(api.post, 'api/projeto/invoices', { paid, creditCard, dueDate, value });
+
+    yield put(Actions.newInvoiceSuccess())
+
+    Toast.show({
+      type: 'success',
+      text1: 'Fatura criada com sucesso',
+      topOffset: 60
+    })
+  } catch(err) {
+    yield put(Actions.newInvoiceFailed())
+  }
+}
+
+export function* editInvoice({ payload }) {
+  const { paid, creditCard, dueDate, value } = payload
+  
+  yield delay(2000)
+
+  try {
+    //const result = yield call(api.put, 'api/projeto/invoices', { paid, creditCard, dueDate, value });
+
+    yield put(Actions.editInvoiceSuccess())
+
+    Toast.show({
+      type: 'success',
+      text1: 'Fatura editada com sucesso',
+      topOffset: 60
+    })
+  } catch(err) {
+    yield put(Actions.editInvoiceFailed())
+  }
+}
+
 export default all([
   takeLatest(Types.LOAD_INVOICES_REQUEST, loadInvoices),
+  takeLatest(Types.LOAD_INVOICE_REQUEST, loadInvoice),
+  takeLatest(Types.NEW_INVOICE_REQUEST, newInvoice),
+  takeLatest(Types.EIDT_INVOICE_REQUEST, editInvoice),
 ])

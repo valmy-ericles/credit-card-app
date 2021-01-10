@@ -84,7 +84,7 @@ const Dashboard = ({ navigation }) => {
           <RecentInvoicesTitle>Faturas recentes</RecentInvoicesTitle>
           {recentInvoices.map(item => {
             return (
-              <RectButton key={item.id} onPress={() => navigation.navigate('EditInvoice')}>
+              <RectButton key={item.id} onPress={() => navigation.navigate('Invoices', { screen: 'EditInvoice', initial: false })}>
                 <CardInvoice paid={item.paid} cardName={item.cardName} totalValue={item.totalValue} dueDate={item.dueDate} />
               </RectButton>
             )

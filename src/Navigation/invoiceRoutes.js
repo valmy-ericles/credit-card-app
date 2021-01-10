@@ -18,6 +18,7 @@ const InvoiceStack = () => {
         },
         headerTintColor: '#fff'
       }}
+      initialRouteName="Invoices"
     >
       <Stack.Screen options={{ title: 'Faturas' }} name="Invoices" component={Invoices} />
       <Stack.Screen options={{ title: 'Nova Fatura' }} name="NewInvoice" component={NewInvoice} />

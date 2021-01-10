@@ -1,10 +1,7 @@
-import React, { useRef, useState } from 'react';
-
-import {
-  StyleSheet,
-  View,
-  Text
-} from "react-native";
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { StyleSheet, View, Text } from "react-native";
+import { useFocusEffect } from '@react-navigation/native';
 
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import ToggleSwitch from 'toggle-switch-react-native';
@@ -14,18 +11,37 @@ import Background from '../../components/Background';
 
 import { Container, Form, SubmitButton } from './styles';
 import { TextInputMask } from 'react-native-masked-text'
+import { Actions } from '../../store/modules/invoices/actions';
 
-const EditInvoice = ({ navigation, modalVisible, hideModal }) => {
-  const passwordRef = useRef();
-  const cpfRef = useRef();
-  const phoneRef = useRef();
+const EditInvoice = ({ navigation }) => {
+  const dispatch = useDispatch();
 
-  const [cpf, setCPF] = useState('');
-  const [value, setValue] = useState('');
-  const [activeSwitch, setActiveSwitch] = useState(true)
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(Actions.loadInvoiceResquest(1))
+    }, [])
+  );
+
+  const valueRef = useRef()
+
+  const invoices = useSelector(state => state.invoices)
+  
+  
+  const [paid, setPaid] = useState(invoices.invoice.paid)
+  const [creditCard, setCreditCard] = useState(invoices.invoice.creditCard)
+  const [dueDate, setDueDate] = useState(invoices.invoice.dueDate)
+  const [value, setValue] = useState(invoices.invoice.value)
+  
+  useEffect(() => {
+    const { paid, creditCard, dueDate, value } = invoices.invoice
+    setPaid(paid)
+    setCreditCard(creditCard)
+    setDueDate(dueDate)
+    setValue(value)
+  }, [invoices.invoice]);
 
   function handleSubmit() {
-
+    dispatch(Actions.editInvoiceResquest())
   }
 
   return (
@@ -35,7 +51,7 @@ const EditInvoice = ({ navigation, modalVisible, hideModal }) => {
             <View>
               <Text style={styles.labelSwitch}>Fatura paga</Text>
               <ToggleSwitch
-                isOn={activeSwitch}
+                isOn={paid}
                 onColor="#56E040"
                 offColor="#D8D8D8"
                 thumbOffStyle={{
@@ -44,7 +60,7 @@ const EditInvoice = ({ navigation, modalVisible, hideModal }) => {
                 thumbOnStyle={{
                   backgroundColor: 'rgba(125, 73, 150, 0.87)'
                 }}
-                onToggle={isOn => setActiveSwitch(isOn)}
+                onToggle={isOn => setPaid(isOn)}
               />
             </View>
             
@@ -55,7 +71,7 @@ const EditInvoice = ({ navigation, modalVisible, hideModal }) => {
                     {label: 'Itaú', value: 'itau'},
                     {label: 'Next', value: 'next'},
                 ]}
-                defaultIndex={0}
+                defaultValue={creditCard}
                 containerStyle={{height: 50, marginVertical: 10 }}
                 
                 placeholder="Selecione o cartão"
@@ -73,25 +89,24 @@ const EditInvoice = ({ navigation, modalVisible, hideModal }) => {
                 labelStyle={{fontSize: 15, color: '#fff'}}
                 dropDownStyle={{backgroundColor: 'rgba(125, 73, 150, 0.99)', borderWidth: 0 }}
 
-                onChangeItem={item => console.log(item.label, item.value)}
+                onChangeItem={item => setCreditCard(item.value)}
             />
 
             <View style={styles.containerInput}>
               <AntDesign name="calendar" size={25} color="#E0E0E0" />
               <TextInputMask
-                 type={'datetime'}
-                 options={{
-                   format: 'DD/MM/YYYY'
-                 }}
-                value={cpf}
+                type={'datetime'}
+                options={{
+                  format: 'DD/MM/YYYY'
+                }}
                 style={styles.input}
                 placeholder="Dada de vencimento"
                 autoCapitalize="none"
                 placeholderTextColor='#E7E7E7'
                 returnKeyType="next"
-                onChangeText={text => setCPF(text)}
-                ref={cpfRef}
-                onSubmitEditing={() => phoneRef.current._inputElement.focus()}
+                value={dueDate}
+                onChangeText={value => setDueDate(value)}
+                onSubmitEditing={() => valueRef.current._inputElement.focus()}
               />
             </View>
 
@@ -99,21 +114,21 @@ const EditInvoice = ({ navigation, modalVisible, hideModal }) => {
               <MaterialIcons name={'attach-money'} size={25} color="#E0E0E0" />
               <TextInputMask
                 type={'money'}
-                value={value}
                 style={styles.input}
                 placeholder="Valor da fatura"
                 maxLength={14}
                 autoCapitalize="none"
                 placeholderTextColor='#E7E7E7'
                 returnKeyType="next"
+                ref={valueRef}
+                value={value}
                 onChangeText={text => setValue(text)}
-                ref={phoneRef}
-                onSubmitEditing={() => passwordRef.current.focus()}
+                onSubmitEditing={handleSubmit}
               />
             </View>
 
-            <SubmitButton onPress={handleSubmit}>
-              Adicionar
+            <SubmitButton loading={invoices.editingInvoice} onPress={handleSubmit}>
+              Salvar
             </SubmitButton>
           </Form>
         </Container>     

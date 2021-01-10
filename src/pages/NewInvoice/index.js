@@ -1,10 +1,7 @@
 import React, { useRef, useState } from 'react';
-
-import {
-  StyleSheet,
-  View,
-  Text
-} from "react-native";
+import { useDispatch, useSelector } from 'react-redux';
+import { StyleSheet, View, Text } from "react-native";
+import Toast from 'react-native-toast-message';
 
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import ToggleSwitch from 'toggle-switch-react-native';
@@ -14,18 +11,34 @@ import Background from '../../components/Background';
 
 import { Container, Form, SubmitButton } from './styles';
 import { TextInputMask } from 'react-native-masked-text'
+import { Actions } from '../../store/modules/invoices/actions';
 
-const NewInvoice = ({ navigation, modalVisible, hideModal }) => {
-  const passwordRef = useRef();
-  const cpfRef = useRef();
-  const phoneRef = useRef();
+const NewInvoice = ({ navigation }) => {
+  const dispatch = useDispatch();
 
-  const [cpf, setCPF] = useState('');
+  const valueRef = useRef();
+
+  const [paid, setPaid] = useState(false)
+  const [creditCard, setCreditCard] = useState('');
+  const [dueDate, setDueDate] = useState('');
   const [value, setValue] = useState('');
-  const [activeSwitch, setActiveSwitch] = useState(false)
+  
+  const invoices = useSelector(state => state.invoices)
 
   function handleSubmit() {
+    const hasEmpty = [creditCard, dueDate, value].some(item => item.length === 0)
 
+    if(hasEmpty) {
+      Toast.show({
+        type: 'error',
+        text1: 'Verifique as informaçõs',
+        text2: 'preencha todos os campos',
+        topOffset: 60
+      })
+      return
+    }
+
+    dispatch(Actions.newInvoiceResquest(paid, creditCard, dueDate, value))
   }
 
   return (
@@ -35,7 +48,7 @@ const NewInvoice = ({ navigation, modalVisible, hideModal }) => {
             <View>
               <Text style={styles.labelSwitch}>Fatura paga</Text>
               <ToggleSwitch
-                isOn={activeSwitch}
+                isOn={paid}
                 onColor="#56E040"
                 offColor="#D8D8D8"
                 thumbOffStyle={{
@@ -44,7 +57,7 @@ const NewInvoice = ({ navigation, modalVisible, hideModal }) => {
                 thumbOnStyle={{
                   backgroundColor: 'rgba(125, 73, 150, 0.87)'
                 }}
-                onToggle={isOn => setActiveSwitch(isOn)}
+                onToggle={isOn => setPaid(isOn)}
               />
             </View>
             
@@ -73,7 +86,7 @@ const NewInvoice = ({ navigation, modalVisible, hideModal }) => {
                 labelStyle={{fontSize: 15, color: '#fff'}}
                 dropDownStyle={{backgroundColor: 'rgba(125, 73, 150, 0.99)', borderWidth: 0 }}
 
-                onChangeItem={item => console.log(item.label, item.value)}
+                onChangeItem={item => setCreditCard(item.value)}
             />
 
             <View style={styles.containerInput}>
@@ -83,15 +96,14 @@ const NewInvoice = ({ navigation, modalVisible, hideModal }) => {
                  options={{
                    format: 'DD/MM/YYYY'
                  }}
-                value={cpf}
-                style={styles.input}
-                placeholder="Dada de vencimento"
-                autoCapitalize="none"
-                placeholderTextColor='#E7E7E7'
-                returnKeyType="next"
-                onChangeText={text => setCPF(text)}
-                ref={cpfRef}
-                onSubmitEditing={() => phoneRef.current._inputElement.focus()}
+                 style={styles.input}
+                 placeholder="Dada de vencimento"
+                 autoCapitalize="none"
+                 placeholderTextColor='#E7E7E7'
+                 returnKeyType="next"
+                 value={dueDate}
+                onChangeText={text => setDueDate(text)}
+                onSubmitEditing={() => valueRef.current._inputElement.focus()}
               />
             </View>
 
@@ -107,16 +119,16 @@ const NewInvoice = ({ navigation, modalVisible, hideModal }) => {
                 placeholderTextColor='#E7E7E7'
                 returnKeyType="next"
                 onChangeText={text => setValue(text)}
-                ref={phoneRef}
-                onSubmitEditing={() => passwordRef.current.focus()}
+                ref={valueRef}
+                onSubmitEditing={handleSubmit}
               />
             </View>
 
-            <SubmitButton onPress={handleSubmit}>
+            <SubmitButton loading={invoices.creatingNewInvoice} onPress={handleSubmit}>
               Adicionar
             </SubmitButton>
           </Form>
-        </Container>     
+        </Container>
       </Background>
   )
 }
