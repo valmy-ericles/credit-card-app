@@ -20,6 +20,22 @@ export function* login({ payload }) {
   }
 }
 
+export function* signup({ payload }) {
+  const { name, email, cpf, phone, password } = payload
+  
+  yield delay(2000)
+
+  try {
+    //const result = yield call(api.post, 'api/projeto/signup', { name, email, cpf, phone, password });
+
+    const token = 'xxx'
+
+    yield put(Actions.signUpSuccess(token))   
+  } catch(err) {
+    yield put(Actions.signUpFailed(err))
+  }
+}
+
 export function* logout() {
 
   yield delay(2000)
@@ -52,4 +68,5 @@ export default all([
   takeLatest(Types.LOGIN_REQUEST, login),
   takeLatest(Types.LOGOUT_REQUEST, logout),
   takeLatest(Types.DELETE_ACCOUNT_REQUEST, deleteAccount),
+  takeLatest(Types.SIGNUP_REQUEST, signup),
 ])

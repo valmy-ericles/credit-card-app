@@ -1,23 +1,55 @@
 import React, { useRef, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import Toast from 'react-native-toast-message';
+
 import { StyleSheet, View } from 'react-native';
+
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { TextInputMask } from 'react-native-masked-text';
+
+import {
+  Container,
+  Form,
+  FormInput,
+  SubmitButton,
+  SignupLink,
+  SignupLinkText
+} from './styles';
 
 import Background from '../../components/Background';
 
-import { Container, Form, FormInput, SubmitButton, SignupLink, SignupLinkText } from './styles';
-import { TextInputMask } from 'react-native-masked-text'
+import { Actions } from '../../store/modules/auth/actions';
 
 const Signup = ({ navigation }) => {
+  const dispatch = useDispatch();
+
   const passwordRef = useRef();
   const emailRef = useRef();
   const cpfRef = useRef();
   const phoneRef = useRef();
 
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [cpf, setCPF] = useState('');
   const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+
+  const auth = useSelector(state => state.auth);
 
   function handleSubmit() {
+    const hasEmpty = [name, email, cpf, phone, password].some(item => item.length === 0)
 
+    if(hasEmpty) {
+      Toast.show({
+        type: 'error',
+        text1: 'Verifique as informaçõs',
+        text2: 'preencha todos os campos',
+        topOffset: 60
+      })
+      return
+    }
+
+    dispatch(Actions.signUpRequest(name, email, cpf, phone, password))
   }
 
   return (
@@ -30,6 +62,8 @@ const Signup = ({ navigation }) => {
             autoCorrect={false}
             placeholder="Nome completo"
             returnKeyType="next"
+            value={name}
+            onChangeText={value => setName(value)}
             onSubmitEditing={() => emailRef.current.focus()}
           />
 
@@ -41,6 +75,8 @@ const Signup = ({ navigation }) => {
             placeholder="Digite seu email"
             returnKeyType="next"
             ref={emailRef}
+            value={email}
+            onChangeText={value => setEmail(value)}
             onSubmitEditing={() => cpfRef.current._inputElement.focus()}
           />
 
@@ -48,14 +84,14 @@ const Signup = ({ navigation }) => {
             <MaterialCommunityIcons name={'file-document-outline'} size={25} color="#E0E0E0" />
             <TextInputMask
               type={'cpf'}
-              value={cpf}
               style={styles.input}
               placeholder="Digite seu CPF"
               autoCapitalize="none"
               placeholderTextColor='#E7E7E7'
               returnKeyType="next"
-              onChangeText={text => setCPF(text)}
               ref={cpfRef}
+              value={cpf}
+              onChangeText={value => setCPF(value)}
               onSubmitEditing={() => phoneRef.current._inputElement.focus()}
             />
           </View>
@@ -69,14 +105,14 @@ const Signup = ({ navigation }) => {
                 withDDD: true,
                 dddMask: '(99) '
               }}
-              value={phone}
               style={styles.input}
               placeholder="Digite seu celular"
               autoCapitalize="none"
               placeholderTextColor='#E7E7E7'
               returnKeyType="next"
-              onChangeText={text => setPhone(text)}
               ref={phoneRef}
+              value={phone}
+              onChangeText={value => setPhone(value)}
               onSubmitEditing={() => passwordRef.current.focus()}
             />
           </View>
@@ -87,10 +123,12 @@ const Signup = ({ navigation }) => {
             placeholder="Digite sua senha"
             returnKeyType="send"
             ref={passwordRef}
+            value={password}
+            onChangeText={value => setPassword(value)}
             onSubmitEditing={handleSubmit}
           />
           
-          <SubmitButton onPress={handleSubmit}>
+          <SubmitButton loading={auth.loading} onPress={handleSubmit}>
             Finalizar
           </SubmitButton>
         </Form>

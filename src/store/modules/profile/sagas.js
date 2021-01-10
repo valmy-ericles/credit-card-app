@@ -1,4 +1,5 @@
-import { Alert } from 'react-native';
+import Toast from 'react-native-toast-message';
+
 import { all, call, takeLatest, put, delay } from 'redux-saga/effects';
 
 import api from '../../../services/api';
@@ -34,7 +35,13 @@ export function* updateProfile({ payload }) {
     //const result = yield call(api.put, 'api/projeto/profile', { name, email, cpf, phone, password });
 
     yield put(Actions.updateProfileSuccess())
-    Alert.alert('Perfil atualizado')
+    
+    Toast.show({
+      type: 'success',
+      text1: 'Perfil atualizado',
+      topOffset: 50
+    })
+
   } catch(err) {
     yield put(Actions.updateProfileFailed(err))
   }

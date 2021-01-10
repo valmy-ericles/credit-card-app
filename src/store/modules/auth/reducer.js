@@ -27,6 +27,20 @@ export default function auth(state = initialState, action) {
         draft.loading = false
         break;
       }
+      case Types.SIGNUP_REQUEST: {
+        draft.loading = true
+        break;
+      }
+      case Types.SIGNUP_SUCCESS: {
+        draft.token = action.payload.token
+        draft.signed = true
+        draft.loading = false
+        break;
+      }
+      case Types.SIGNUP_FAILED: {
+        draft.loading = false
+        break;
+      }
       case Types.LOGOUT_REQUEST: {
         draft.loadingLogout = true
         break;

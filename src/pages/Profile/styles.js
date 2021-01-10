@@ -42,14 +42,14 @@ export const ButtonActions = styled.View`
 
 export const LogoutButton = styled(ButtonIcon)`
   background: transparent;
-  border: 2px solid white;
+  border: 1px solid white;
   border-radius: 10px;
   width: 150px;
 `;
 
 export const DeleteAccoutnButton = styled(ButtonIcon)`
   background: transparent;
-  border: 2px solid white;
+  border: 1px solid white;
   border-radius: 10px;
   width: 150px;
 `;

@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Toast from 'react-native-toast-message';
 
 import Background from '../../components/Background';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -26,6 +27,16 @@ const Signin = ({ navigation }) => {
   const { loading } = useSelector(state => state.auth)
 
   function handleSubmit() {
+    if(email.length === 0 || password.length === 0) {
+      Toast.show({
+        type: 'error',
+        text1: 'Verifique as informaçõs',
+        text2: 'preencha todos os campos',
+        topOffset: 60
+      })
+      return
+    }
+
     dispatch(Actions.loginRequest(email, password))
   }
 
