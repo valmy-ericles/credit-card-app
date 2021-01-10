@@ -1,35 +1,38 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import { useSelector, useDispatch } from 'react-redux';
 
 import DropDownPicker from 'react-native-dropdown-picker';
 
-import Background from '../../components/Background';
 import { AntDesign } from '@expo/vector-icons';
 
-import { Container, InvoiceScroll } from './styles';
+
+import {
+  ActionsContainer,
+  AddButton,
+  Container,
+  InvoiceScroll
+} from './styles';
+
 import CardInvoice2 from '../../components/CardInvoice2';
+import Background from '../../components/Background';
 
-import { ActionsContainer, AddButton } from './styles';
-
-const invoices = [
-  { cardName: 'Nubank', dueDate: '23/01/2021', totalValue: '45,00', paid: true },
-  { cardName: 'Next', dueDate: '23/01/2021', totalValue: '45,60', paid: false },
-  { cardName: 'Itaú', dueDate: '23/01/2021', totalValue: '63,00', paid: false},
-  { cardName: 'Nubank', dueDate: '23/01/2021', totalValue: '55,60', paid: false},
-  { cardName: 'Bradeso', dueDate: '23/01/2021', totalValue: '45,60', paid: false},
-  { cardName: 'Nubank', dueDate: '23/01/2021', totalValue: '865,60', paid: true},
-  { cardName: 'Bradesco', dueDate: '23/01/2021', totalValue: '45,60', paid: false},
-  { cardName: 'Nubank', dueDate: '23/01/2021', totalValue: '55,00', paid: false},
-  { cardName: 'Nubank', dueDate: '23/01/2021', totalValue: '45,00', paid: true },
-  { cardName: 'Next', dueDate: '23/01/2021', totalValue: '45,60', paid: false },
-  { cardName: 'Itaú', dueDate: '23/01/2021', totalValue: '63,00', paid: false},
-  { cardName: 'Nubank', dueDate: '23/01/2021', totalValue: '55,60', paid: false},
-  { cardName: 'Bradeso', dueDate: '23/01/2021', totalValue: '45,60', paid: false},
-  { cardName: 'Nubank', dueDate: '23/01/2021', totalValue: '865,60', paid: true},
-  { cardName: 'Bradesco', dueDate: '23/01/2021', totalValue: '45,60', paid: false},
-  { cardName: 'Nubank', dueDate: '23/01/2021', totalValue: '55,00', paid: false},
-]
+import { Actions } from '../../store/modules/invoices/actions';
 
 const Invoices = ({ navigation }) => {
+  const dispatch = useDispatch();
+
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(Actions.loadInvoicesResquest())
+    }, [])
+  );
+  
+  const invoices = useSelector(state => state.invoices)
+
+  function filter(filterKind) {
+    dispatch(Actions.filterInvoicesResquest(filterKind))
+  }
 
   return (
     <Background>
@@ -37,13 +40,14 @@ const Invoices = ({ navigation }) => {
         <ActionsContainer>
             <DropDownPicker
               items={[
-                  {label: 'Pagas', value: 'pagas'},
-                  {label: 'Não pagas', value: 'nao-pagas'},
+                  {label: 'Pagas', value: 'paid'},
+                  {label: 'Não pagas', value: 'notPaid'},
+                  {label: 'Todas', value: 'all'},
               ]}
               defaultIndex={0}
               containerStyle={{height: 50, width: 300 }}
               
-              placeholder="Selecione o cartão"
+              placeholder="Filtrar por estado"
               placeholderStyle={{
                 fontSize: 18,
                 color: '#D8D8D8'
@@ -58,7 +62,7 @@ const Invoices = ({ navigation }) => {
               labelStyle={{fontSize: 15, color: '#fff'}}
               dropDownStyle={{backgroundColor: 'rgba(125, 73, 150, 0.99)', borderWidth: 0 }}
 
-              onChangeItem={item => console.log(item.label, item.value)}
+              onChangeItem={item => filter(item.value)}
             />
 
           <AddButton onPress={() => navigation.navigate('NewInvoice')}>
@@ -68,7 +72,7 @@ const Invoices = ({ navigation }) => {
         </ActionsContainer>
         <InvoiceScroll>
           {
-            invoices.map(({ cardName, dueDate, totalValue, paid }, index) => {
+            invoices.filteredInvoices.map(({ cardName, dueDate, totalValue, paid }, index) => {
               return (
                 <CardInvoice2
                   navigation={navigation}
