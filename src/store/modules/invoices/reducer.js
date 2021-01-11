@@ -22,7 +22,7 @@ export default function profile(state = initialState, action) {
   return produce(state, draft => {
     switch (action.type) {
       case Types.LOAD_INVOICES_REQUEST: {
-        draft.loading = true
+        draft.loading = (draft.allInvoices.length === 0 ? true : false)
         break;
       }
       case Types.LOAD_INVOICES_SUCCESS: {
@@ -30,6 +30,7 @@ export default function profile(state = initialState, action) {
 
         draft.allInvoices = data
         draft.filteredInvoices = data
+        draft.loading = false
         break;
       }
       case Types.LOAD_INVOICES_FAILED: {

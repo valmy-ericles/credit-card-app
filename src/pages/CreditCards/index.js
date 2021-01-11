@@ -29,7 +29,7 @@ const CreditCards = ({ navigation }) => {
   const creditCards = useSelector(state => state.creditCards)
 
   return (
-    <Background>
+    <Background loading={creditCards.loading}>
       <Container>
         <ActionsContainer>
           <AddButton onPress={() => navigation.navigate('NewCreditCard')}>

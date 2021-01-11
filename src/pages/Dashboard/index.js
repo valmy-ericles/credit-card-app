@@ -56,7 +56,7 @@ const Dashboard = ({ navigation }) => {
   }, []);
 
   return (
-    <Background>
+    <Background loading={loading}>
       <Container
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

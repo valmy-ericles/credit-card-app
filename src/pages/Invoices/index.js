@@ -34,7 +34,7 @@ const Invoices = ({ navigation }) => {
   }
 
   return (
-    <Background>
+    <Background loading={invoices.loading}>
       <Container>
         <ActionsContainer>
             <DropDownPicker

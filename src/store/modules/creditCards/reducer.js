@@ -12,7 +12,7 @@ export default function dashboard(state = initialState, action) {
   return produce(state, draft => {
     switch (action.type) {
       case Types.LOAD_CREDIT_CARDS_REQUEST: {
-        draft.loading = true
+        draft.loading = (draft.creditCards.length === 0 ? true : false)
         break;
       }
       case Types.LOAD_CREDIT_CARDS_SUCCESS: {

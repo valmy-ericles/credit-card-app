@@ -18,7 +18,7 @@ export default function dashboard(state = initialState, action) {
   return produce(state, draft => {
     switch (action.type) {
       case Types.LOAD_INVOICES_REQUEST: {
-        draft.loading = true
+        draft.loading = draft.totalDebits === null ? true : false
         draft.refreshing = action.payload.isRefreshing
         break;
       }
