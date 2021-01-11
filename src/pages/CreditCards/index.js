@@ -1,7 +1,8 @@
-import React, { useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
 
+import { ConfirmDialog } from 'react-native-simple-dialogs';
 import { AntDesign } from '@expo/vector-icons';
 
 import CreditCard from '../../components/CreditCard';
@@ -26,7 +27,20 @@ const CreditCards = ({ navigation }) => {
     }, [])
   );
   
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [creditCardIdToDelete, setCreditCardIdToDelete] = useState(null)
+
   const creditCards = useSelector(state => state.creditCards)
+
+  const deleteCreditCard = (creditCardId) => {
+    setCreditCardIdToDelete(creditCardId)
+    setShowDeleteConfirm(true)
+  }
+
+  function sendRequestToDelete() {
+    dispatch(Actions.deleteCreditCardRequest(creditCardIdToDelete))
+    setShowDeleteConfirm(false)
+  }
 
   return (
     <Background loading={creditCards.loading}>
@@ -37,14 +51,34 @@ const CreditCards = ({ navigation }) => {
           </AddButton>
         </ActionsContainer>
 
+        <ConfirmDialog
+          title="Deseja apagar esse cartão ?"
+          titleStyle={{ color: '#615E86', fontWeight: 'bold' }}
+          message="esta ação não poderá ser revertida"
+          animationType="fade"
+          messageStyle={{ fontSize: 15 }}
+          visible={showDeleteConfirm}
+          onTouchOutside={() => setShowDeleteConfirm(false)}
+          positiveButton={{
+              title: "SIM",
+              onPress: () => sendRequestToDelete()
+          }}
+          negativeButton={{
+              title: "NÃO",
+              onPress: () => setShowDeleteConfirm(false)
+          }}
+        />
+
         <CreditCardScroll>
           {
-            creditCards.creditCards.map(({ name }, index) => {
+            creditCards.creditCards.map(({ id, name }, index) => {
               return (
                 <CreditCard
+                  id={id}
                   navigation={navigation}
                   key={index} 
                   name={name} 
+                  deleteCreditCard={deleteCreditCard}
                 />
               )
             })

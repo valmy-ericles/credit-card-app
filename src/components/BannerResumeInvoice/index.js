@@ -1,18 +1,20 @@
 import React from 'react';
 import { Container, Head, Title, Quantity, Body, BodyTitle, TotalValue } from './styles';
 
-export default BannerInvoice = ({ title, totalValue, quantity, colorText }) => {
+export default BannerInvoice = ({ title, totalValue, quantity, colorText, ...rest }) => {
   return (
-    <Container>
-      <Head>
-        <Title>{title}</Title>
-        <Quantity>{quantity}</Quantity>
-      </Head>
+    <Container {...rest}>
+      <>
+        <Head>
+          <Title>{title}</Title>
+          <Quantity>{quantity}</Quantity>
+        </Head>
 
-      <Body>
-        <BodyTitle>Total</BodyTitle>
-        <TotalValue colorText={colorText}>{totalValue}</TotalValue>
-      </Body>
+        <Body>
+          <BodyTitle>Total</BodyTitle>
+          <TotalValue colorText={colorText}>{totalValue}</TotalValue>
+        </Body>
+      </>
     </Container>    
   )
 }

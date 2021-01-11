@@ -2,13 +2,13 @@ import React from 'react';
 
 import { Container, Name, Actions, EditButton, TrashButton  } from './styles';
 
-const CreditCard = ({ name, navigation }) => {
+const CreditCard = ({ id, name, navigation, deleteCreditCard }) => {
   return (
     <Container>
       <Name>{name}</Name>
       <Actions>
         <EditButton onPress={() => navigation.navigate('EditCreditCard')} />
-        <TrashButton />
+        <TrashButton onPress={() => deleteCreditCard(id) }/>
       </Actions>
     </Container>
   )

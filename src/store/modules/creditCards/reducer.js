@@ -56,7 +56,7 @@ export default function dashboard(state = initialState, action) {
         draft.creditCard.name = name
         draft.creditCard.number = number
         draft.creditCard.dueDate = dueDate
-        draft.creditCard.cv = '212'
+        draft.creditCard.cv = cv
         
         draft.loadingCreditCard = false
         break;
@@ -75,6 +75,19 @@ export default function dashboard(state = initialState, action) {
       }
       case Types.EDIT_CREDIT_CARD_FAILED: {
         draft.editingCreditCard = false
+        break;
+      }
+      case Types.DELETE_CREDIT_CARD_REQUEST: {
+        break;
+      }
+      case Types.DELETE_CREDIT_CARD_SUCCESS: {
+        const { id } = action.payload
+
+        const index = draft.creditCards.findIndex(card => card.id === id)
+        if(index !== -1) draft.creditCards.splice(index, 1)
+        break;
+      }
+      case Types.DELETE_CREDIT_CARD_FAILED: {
         break;
       }
       default:

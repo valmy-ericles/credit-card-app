@@ -20,7 +20,7 @@ const InvoiceStack = () => {
       }}
       initialRouteName="Invoices"
     >
-      <Stack.Screen options={{ title: 'Faturas' }} name="Invoices" component={Invoices} />
+      <Stack.Screen options={{ title: 'Faturas' }} name="InvoiceList" component={Invoices} />
       <Stack.Screen options={{ title: 'Nova Fatura' }} name="NewInvoice" component={NewInvoice} />
       <Stack.Screen options={{ title: 'Editar Fatura' }} name="EditInvoice" component={EditInvoice} />
     </Stack.Navigator>

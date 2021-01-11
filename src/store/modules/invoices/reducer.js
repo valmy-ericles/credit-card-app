@@ -87,16 +87,29 @@ export default function profile(state = initialState, action) {
         draft.creatingNewInvoice = false
         break;
       }
-      case Types.EIDT_INVOICE_REQUEST: {
+      case Types.EDIT_INVOICE_REQUEST: {
         draft.editingInvoice = true
         break;
       }
-      case Types.EIDT_INVOICE_SUCCESS: {
+      case Types.EDIT_INVOICE_SUCCESS: {
         draft.editingInvoice = false
         break;
       }
-      case Types.EIDT_INVOICE_FAILED: {
+      case Types.EDIT_INVOICE_FAILED: {
         draft.editingInvoice = false
+        break;
+      }
+      case Types.DELETE_INVOICE_REQUEST: {
+        break;
+      }
+      case Types.DELETE_INVOICE_SUCCESS: {
+        const { id } = action.payload
+
+        const index = draft.filteredInvoices.findIndex(invoice => invoice.id === id)
+        if(index !== -1) draft.filteredInvoices.splice(index, 1)
+        break;
+      }
+      case Types.DELETE_INVOICE_FAILED: {
         break;
       }
       default:

@@ -11,9 +11,13 @@ export const Types = {
   NEW_INVOICE_SUCCESS: '@invoices/NEW_INVOICE_SUCCESS',
   NEW_INVOICE_FAILED: '@invoices/NEW_INVOICE_FAILED',
 
-  EIDT_INVOICE_REQUEST: '@invoices/EIDT_INVOICE_REQUEST',
-  EIDT_INVOICE_SUCCESS: '@invoices/EIDT_INVOICE_SUCCESS',
-  EIDT_INVOICE_FAILED: '@invoices/EIDT_INVOICE_FAILED',
+  EDIT_INVOICE_REQUEST: '@invoices/EDIT_INVOICE_REQUEST',
+  EDIT_INVOICE_SUCCESS: '@invoices/EDIT_INVOICE_SUCCESS',
+  EDIT_INVOICE_FAILED: '@invoices/EDIT_INVOICE_FAILED',
+
+  DELETE_INVOICE_REQUEST: '@invoices/DELETE_INVOICE_REQUEST',
+  DELETE_INVOICE_SUCCESS: '@invoices/DELETE_INVOICE_SUCCESS',
+  DELETE_INVOICE_FAILED: '@invoices/DELETE_INVOICE_FAILED',
 
   FILTER_INVOICES_REQUEST: '@invoices/FILTER_INVOICES_REQUEST',
 }
@@ -67,16 +71,32 @@ export const Actions = {
 
 
   editInvoiceResquest: (paid, creditCard, dueDate, value) => ({
-    type: Types.EIDT_INVOICE_REQUEST,
+    type: Types.EDIT_INVOICE_REQUEST,
     payload: { paid, creditCard, dueDate, value }
   }),
 
   editInvoiceSuccess: () => ({
-    type: Types.EIDT_INVOICE_SUCCESS,
+    type: Types.EDIT_INVOICE_SUCCESS,
   }),
 
   editInvoiceFailed: (err) => ({
-    type: Types.EIDT_INVOICE_FAILED,
+    type: Types.EDIT_INVOICE_FAILED,
+    payload: { err }
+  }),
+
+
+  deleteInvoiceResquest: (id) => ({
+    type: Types.DELETE_INVOICE_REQUEST,
+    payload: { id }
+  }),
+
+  deleteInvoiceSuccess: (id) => ({
+    type: Types.DELETE_INVOICE_SUCCESS,
+    payload: { id }
+  }),
+
+  deleteInvoiceFailed: (err) => ({
+    type: Types.DELETE_INVOICE_FAILED,
     payload: { err }
   }),
 

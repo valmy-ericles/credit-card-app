@@ -14,11 +14,11 @@ export function* loadCreditCards() {
     //const result = yield call(api.get, 'api/projeto/credit_cards');
     
     const data = [
-      { name: 'Nubank' },
-      { name: 'Itaú' },
-      { name: 'Bradesco' },
-      { name: 'Next' },
-      { name: 'Banco do Brasil' },
+      { id: 1, name: 'Nubank' },
+      { id: 2, name: 'Itaú' },
+      { id: 3, name: 'Bradesco' },
+      { id: 4, name: 'Next' },
+      { id: 5, name: 'Banco do Brasil' },
     ]
 
     yield put(Actions.loadCreditCardsSuccess(data))   
@@ -88,9 +88,28 @@ export function* editCreditCard({ payload }) {
   }
 }
 
+export function* deleteCreditCard({ payload }) {
+  const { id } = payload
+
+  try {
+    //const result = yield call(api.delete, 'api/projeto/credit_cards/${id}');
+
+    yield put(Actions.deleteCreditCardSuccess(id))
+    
+    Toast.show({
+      type: 'success',
+      text1: 'Cartão deletado com sucesso',
+      topOffset: 60
+    })
+  } catch(err) {
+    yield put(Actions.deleteCreditCardFailed(err))
+  }
+}
+
 export default all([
   takeLatest(Types.LOAD_CREDIT_CARDS_REQUEST, loadCreditCards),
   takeLatest(Types.NEW_CREDIT_CARD_REQUEST, createCreditCard),
   takeLatest(Types.LOAD_CREDIT_CARD_REQUEST, loadCreditCard),
   takeLatest(Types.EDIT_CREDIT_CARD_REQUEST, editCreditCard),
+  takeLatest(Types.DELETE_CREDIT_CARD_REQUEST, deleteCreditCard),
 ])

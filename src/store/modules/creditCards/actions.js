@@ -14,6 +14,10 @@ export const Types = {
   EDIT_CREDIT_CARD_REQUEST: '@credit_cards/EDIT_CREDIT_CARD_REQUEST',
   EDIT_CREDIT_CARD_SUCCESS: '@credit_cards/EDIT_CREDIT_CARD_SUCCESS',
   EDIT_CREDIT_CARD_FAILED: '@credit_cards/EDIT_CREDIT_CARD_FAILED',
+
+  DELETE_CREDIT_CARD_REQUEST: '@credit_cards/DELETE_CREDIT_CARD_REQUEST',
+  DELETE_CREDIT_CARD_SUCCESS: '@credit_cards/DELETE_CREDIT_CARD_SUCCESS',
+  DELETE_CREDIT_CARD_FAILED: '@credit_cards/DELETE_CREDIT_CARD_FAILED',
 }
 
 export const Actions = {
@@ -75,6 +79,22 @@ export const Actions = {
   
   editCreditCardFailed: (err) => ({
     type: Types.EDIT_CREDIT_CARD_FAILED,
+    payload: { err }
+  }),
+
+
+  deleteCreditCardRequest: (id) => ({
+    type: Types.DELETE_CREDIT_CARD_REQUEST,
+    payload: { id }
+  }),
+  
+  deleteCreditCardSuccess: (id) => ({
+    type: Types.DELETE_CREDIT_CARD_SUCCESS,
+    payload: { id }
+  }),
+  
+  deleteCreditCardFailed: (err) => ({
+    type: Types.DELETE_CREDIT_CARD_FAILED,
     payload: { err }
   }),
 }

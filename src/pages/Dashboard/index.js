@@ -76,8 +76,28 @@ const Dashboard = ({ navigation }) => {
 
         <InvoicesResume>
           <InvoicesTitle>Resumo das Faturas</InvoicesTitle>
-          <BannerInvoice title="Pagas" totalValue={paidInvoices} quantity={paidInvoicesQuantity} colorText="blue" />
-          <BannerInvoice title="Pendentes" totalValue={pendingInvoices} quantity={pendingInvoicesQuantity} colorText="red" />
+          
+          <BannerInvoice 
+            title="Pagas"
+            totalValue={paidInvoices}
+            quantity={paidInvoicesQuantity}
+            colorText="blue"
+            onPress={() => navigation.navigate(
+              'Invoices', 
+              { screen: 'InvoiceList', params: { kindInvoice: 'paid' } 
+            })}
+          />
+          
+          <BannerInvoice
+            title="Pendentes"
+            totalValue={pendingInvoices}
+            quantity={pendingInvoicesQuantity}
+            colorText="red" 
+            onPress={() => navigation.navigate(
+              'Invoices',
+              { screen: 'InvoiceList', params: { kindInvoice: 'notPaid' }
+            })}
+          />
         </InvoicesResume>
 
         <RecentInvoices>

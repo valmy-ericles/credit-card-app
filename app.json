@@ -1,6 +1,7 @@
 {
   "expo": {
-    "name": "creditcard",
+    "name": "CreditCard",
+    "description": "App para gerenciamento de cartões de crédito",
     "slug": "creditcard",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -23,7 +24,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "creditcar.app"
     },
     "web": {
       "favicon": "./assets/favicon.png"

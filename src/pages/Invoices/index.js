@@ -1,8 +1,10 @@
-import React, { useCallback } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
+
+import { useIsFocused } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 
 import DropDownPicker from 'react-native-dropdown-picker';
+import { ConfirmDialog } from 'react-native-simple-dialogs';
 
 import { AntDesign } from '@expo/vector-icons';
 
@@ -18,19 +20,43 @@ import Background from '../../components/Background';
 
 import { Actions } from '../../store/modules/invoices/actions';
 
-const Invoices = ({ navigation }) => {
+const Invoices = ({ route, navigation }) => {
+  const isFocused = useIsFocused();
   const dispatch = useDispatch();
 
-  useFocusEffect(
-    useCallback(() => {
-      dispatch(Actions.loadInvoicesResquest())
-    }, [])
-  );
-  
   const invoices = useSelector(state => state.invoices)
+
+  useEffect(() => {
+    const kindInvoice = route.params?.kindInvoice || null
+
+    if(!isFocused) return
+
+    if(invoices.allInvoices.length === 0) {
+      dispatch(Actions.loadInvoicesResquest())
+    }
+
+    if(!kindInvoice) return
+
+    filter(kindInvoice)
+    setSelectedFilter(kindInvoice)
+  }, [isFocused])
+
+  const [selectedFilter, setSelectedFilter] = useState('all')
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [invoiceIdToDelete, setInvoiceIdToDelete] = useState(false)
 
   function filter(filterKind) {
     dispatch(Actions.filterInvoicesResquest(filterKind))
+  }
+
+  const deleteInvoice = (invoiceId) => {
+    setInvoiceIdToDelete(invoiceId)
+    setShowDeleteConfirm(true)
+  }
+
+  function sendRequestToDelete() {
+    dispatch(Actions.deleteInvoiceResquest(invoiceIdToDelete))
+    setShowDeleteConfirm(false)
   }
 
   return (
@@ -40,10 +66,10 @@ const Invoices = ({ navigation }) => {
             <DropDownPicker
               items={[
                   {label: 'Pagas', value: 'paid'},
-                  {label: 'Não pagas', value: 'notPaid'},
+                  {label: 'Pendentes', value: 'notPaid'},
                   {label: 'Todas', value: 'all'},
               ]}
-              defaultIndex={0}
+              defaultValue={selectedFilter}
               containerStyle={{height: 50, width: 300 }}
               
               placeholder="Filtrar por estado"
@@ -69,17 +95,38 @@ const Invoices = ({ navigation }) => {
           </AddButton>
 
         </ActionsContainer>
+
+        <ConfirmDialog
+          title="Deseja apagar essa fatura ?"
+          titleStyle={{ color: '#615E86', fontWeight: 'bold' }}
+          message="esta ação não poderá ser revertida"
+          animationType="fade"
+          messageStyle={{ fontSize: 15 }}
+          visible={showDeleteConfirm}
+          onTouchOutside={() => setShowDeleteConfirm(false)}
+          positiveButton={{
+              title: "SIM",
+              onPress: () => sendRequestToDelete()
+          }}
+          negativeButton={{
+              title: "NÃO",
+              onPress: () => setShowDeleteConfirm(false)
+          }}
+        />
+
         <InvoiceScroll>
           {
-            invoices.filteredInvoices.map(({ cardName, dueDate, totalValue, paid }, index) => {
+            invoices.filteredInvoices.map(({ id, cardName, dueDate, totalValue, paid }, index) => {
               return (
                 <CardInvoice2
+                  id={id}
                   navigation={navigation}
                   key={index} 
                   cardName={cardName} 
                   totalValue={totalValue} 
                   dueDate={dueDate} 
                   paid={paid}
+                  deleteInvoice={deleteInvoice}
                 />
               )
             })
