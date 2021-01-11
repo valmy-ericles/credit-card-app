@@ -1,32 +1,70 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useFocusEffect } from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 
-import {
-  StyleSheet,
-  View
-} from "react-native";
+import { StyleSheet, View } from "react-native";
+import { TextInputMask } from 'react-native-masked-text'
 
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 
+import {
+  Container,
+  Form,
+  SubmitButton,
+  FormInput
+} from './styles';
+
 import Background from '../../components/Background';
 
-import { Container, Form, SubmitButton, FormInput } from './styles';
-import { TextInputMask } from 'react-native-masked-text'
+import { Actions } from '../../store/modules/creditCards/actions';
 
-const EditInvoice = ({ navigation, modalVisible, hideModal }) => {
-  const passwordRef = useRef();
-  const cpfRef = useRef();
-  const phoneRef = useRef();
+const EditInvoice = ({ navigation }) => {
+  const dispatch = useDispatch();
 
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(Actions.loadCreditCardRequest(1))
+    }, [])
+  );
+
+  const numberRef = useRef();
+  const dueDateRef = useRef();
+  const cvRef = useRef();
+
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
   const [dueDate, setDueDate] = useState('');
-  const [creditCard, setCreditCard] = useState('');
   const [cv, setCV] = useState('');
 
-  function handleSubmit() {
+  const reducerState = useSelector(state => state.creditCards)
 
+  useEffect(() => {
+    const { name, number, dueDate, cv } = reducerState.creditCard
+    setName(name)
+    setNumber(number)
+    setDueDate(dueDate)
+    setCV(cv)
+  }, [reducerState.creditCard]);
+
+  function handleSubmit() {
+    const hasEmpty = [name, number, dueDate, cv].some(item => item.length === 0)
+
+    if(hasEmpty) {
+      Toast.show({
+        type: 'error',
+        text1: 'Verifique as informaçõs',
+        text2: 'preencha todos os campos',
+        topOffset: 60
+      })
+      return
+    }
+
+    dispatch(Actions.editCreditCardRequest(name, number, dueDate, cv))
   }
 
   return (
-    <Background>
+    <Background loading={reducerState.loadingCreditCard}>
         <Container>
           <Form>
             <FormInput
@@ -35,7 +73,9 @@ const EditInvoice = ({ navigation, modalVisible, hideModal }) => {
               autoCorrect={false}
               placeholder="Nome"
               returnKeyType="next"
-              onSubmitEditing={() => emailRef.current.focus()}
+              value={name}
+              onChangeText={value => setName(value)}
+              onSubmitEditing={() => numberRef.current._inputElement.focus()}
             />
 
             <View style={styles.containerInput}>
@@ -45,16 +85,16 @@ const EditInvoice = ({ navigation, modalVisible, hideModal }) => {
                 options={{
                   issuer: 'visa-or-mastercard'
                 }}
-                value={creditCard}
                 style={styles.input}
                 placeholder="Número"
                 maxLength={14}
                 autoCapitalize="none"
                 placeholderTextColor='#E7E7E7'
                 returnKeyType="next"
-                onChangeText={text => setCreditCard(text)}
-                ref={phoneRef}
-                onSubmitEditing={() => passwordRef.current.focus()}
+                ref={numberRef}
+                value={number}
+                onChangeText={value => setNumber(value)}
+                onSubmitEditing={() => dueDateRef.current._inputElement.focus()}
               />
             </View>
             
@@ -65,15 +105,15 @@ const EditInvoice = ({ navigation, modalVisible, hideModal }) => {
                 options={{
                   format: 'DD/MM/YYYY'
                 }}
-                value={dueDate}
                 style={styles.input}
                 placeholder="Validade"
                 autoCapitalize="none"
                 placeholderTextColor='#E7E7E7'
                 returnKeyType="next"
-                onChangeText={text => setDueDate(text)}
-                ref={cpfRef}
-                onSubmitEditing={() => phoneRef.current._inputElement.focus()}
+                onChangeText={value => setDueDate(value)}
+                ref={dueDateRef}
+                value={dueDate}
+                onSubmitEditing={() => cvRef.current.focus()}
               />
             </View>
 
@@ -83,13 +123,15 @@ const EditInvoice = ({ navigation, modalVisible, hideModal }) => {
               autoCorrect={false}
               placeholder="CV"
               returnKeyType="next"
-              value={cv}
               maxLength={4}
               keyboardType="numeric"
-              onChangeText={text => setCV(text)}
+              ref={cvRef}
+              value={cv}
+              onChangeText={value => setCV(value)}
+              onSubmitEditing={handleSubmit}
             />
 
-            <SubmitButton onPress={handleSubmit}>
+            <SubmitButton loading={reducerState.editingCreditCard} onPress={handleSubmit}>
               Salvar
             </SubmitButton>
           </Form>

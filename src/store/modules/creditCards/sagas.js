@@ -27,6 +27,28 @@ export function* loadCreditCards() {
   }
 }
 
+export function* loadCreditCard({ payload }) {
+  const { id } = payload
+
+  yield delay(2000)
+
+  try {
+    //const result = yield call(api.get, `api/projeto/credit_cards/${id}`);
+    
+    const data = {
+      name: 'Itaú',
+      number: '828585859585',
+      dueDate: '01/02/2027',
+      cv: '876'
+    }
+
+    yield put(Actions.loadCreditCardSuccess(data.name, data.number, data.dueDate, data.cv))   
+  } catch(err) {
+    console.log(err)
+    yield put(Actions.loadCreditCardFailed(err))
+  }
+}
+
 export function* createCreditCard({ payload }) {
   
   yield delay(2000)
@@ -46,7 +68,29 @@ export function* createCreditCard({ payload }) {
   }
 }
 
+export function* editCreditCard({ payload }) {
+  const { name, number, dueDate, cv } = payload
+
+  yield delay(2000)
+
+  try {
+    //const result = yield call(api.put, 'api/projeto/credit_cards', { name, number, dueDate, cv });
+
+    yield put(Actions.editCreditCardSuccess())
+    
+    Toast.show({
+      type: 'success',
+      text1: 'Cartão editado com sucesso',
+      topOffset: 60
+    })
+  } catch(err) {
+    yield put(Actions.editCreditCardFailed(err))
+  }
+}
+
 export default all([
   takeLatest(Types.LOAD_CREDIT_CARDS_REQUEST, loadCreditCards),
   takeLatest(Types.NEW_CREDIT_CARD_REQUEST, createCreditCard),
+  takeLatest(Types.LOAD_CREDIT_CARD_REQUEST, loadCreditCard),
+  takeLatest(Types.EDIT_CREDIT_CARD_REQUEST, editCreditCard),
 ])

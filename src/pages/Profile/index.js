@@ -142,7 +142,7 @@ const Signup = ({ navigation }) => {
               ref={phoneRef}
               value={profile.userPhone}
               onChangeText={value => handleOnChangeText('userPhone', value)}
-              onSubmitEditing={() => passwordRef.current.focus()}
+              onSubmitEditing={() => currentPasswordRef.current.focus()}
             />
           </View>
           
@@ -153,22 +153,22 @@ const Signup = ({ navigation }) => {
                 icon="lock-outline"
                 secureTextEntry
                 placeholder="Senha atual"
-                returnKeyType="send"
+                returnKeyType="next"
                 ref={currentPasswordRef}
                 value={currentPassword}
                 onChangeText={value => setCurrentPassword(value)}
-                onSubmitEditing={handleSubmit}
+                onSubmitEditing={() => newPasswordRef.current.focus()}
               />
 
               <FormInput
                 icon="lock-outline"
                 secureTextEntry
                 placeholder="Nova senha"
-                returnKeyType="send"
+                returnKeyType="next"
                 ref={newPasswordRef}
                 value={newPassword}
                 onChangeText={value => setNewPassword(value)}
-                onSubmitEditing={handleSubmit}
+                onSubmitEditing={() => newPasswordConfirmationRef.current.focus()}
               />
 
               <FormInput
