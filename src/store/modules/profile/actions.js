@@ -6,8 +6,6 @@ export const Types = {
   UPDATE_PROFILE_REQUEST: '@profile/UPDATE_PROFILE_REQUEST',
   UPDATE_PROFILE_SUCCESS: '@profile/UPDATE_PROFILE_SUCCESS',
   UPDATE_PROFILE_FAILED: '@profile/UPDATE_PROFILE_FAILED',
-
-  HANDLE_ON_CHANGE_TEXT: '@profile/HANDLE_ON_CHANGE_TEXT',
 }
 
 export const Actions = {
@@ -40,10 +38,4 @@ export const Actions = {
     type: Types.UPDATE_PROFILE_FAILED,
     payload: { err }
   }),
-
-
-  handleOnChangeText: (input, value) => ({
-    type: Types.HANDLE_ON_CHANGE_TEXT,
-    payload: { input, value }
-  })
 }

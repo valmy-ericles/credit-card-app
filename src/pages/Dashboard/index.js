@@ -37,7 +37,7 @@ const Dashboard = ({ navigation }) => {
     }, [])
   );
 
-  const { userName } = useSelector(state => state.profile)
+  const profileReducer = useSelector(state => state.profile)
 
   const { 
     totalDebits,
@@ -64,7 +64,7 @@ const Dashboard = ({ navigation }) => {
       >
         <Header>
           <UserName>
-            Olá, {userName}
+            Olá, {profileReducer.user.name}
           </UserName>
           <TotalDebitsBody>
             <TotalDebitsText>Débitos totais</TotalDebitsText>

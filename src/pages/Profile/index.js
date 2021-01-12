@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { TextInputMask } from 'react-native-masked-text'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import Toast from 'react-native-toast-message';
 
 import {
   Container,
@@ -42,33 +43,55 @@ const Signup = ({ navigation }) => {
   const newPasswordRef = useRef();
   const newPasswordConfirmationRef = useRef();
 
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [cpf, setCpf] = useState('');
+  const [phone, setPhone] = useState('');
+
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [newPasswordConfirmation, setNewPasswordConfirmation] = useState('');
 
   const auth = useSelector(state => state.auth)
-  const profile = useSelector(state => state.profile)
+  const profileReducer = useSelector(state => state.profile)
+
+  useEffect(() => {
+    const { user } = profileReducer
+
+    setName(user.name)
+    setEmail(user.email)
+    setCpf(user.cpf)
+    setPhone(user.phone)
+  }, [profileReducer.user]);
 
   useEffect(() => {
     setCurrentPassword('')
     setNewPassword('')
     setNewPasswordConfirmation('')
-  }, [profile.updating]);
+  }, [profileReducer.updating]);
 
   function handleSubmit() {
+    const hasEmpty = [name, email, cpf, phone].some(item => item.length === 0)
+
+    if(hasEmpty) {
+      Toast.show({
+        type: 'error',
+        text1: 'Verifique as informaçõs',
+        text2: 'preencha suas informações pessoais',
+        topOffset: 60
+      })
+      return
+    }
+  
     dispatch(ProfileActions.updateProfileRequest(
-      profile.userName,
-      profile.userEmail,
-      profile.userCPF,
-      profile.userPhone,
+      name,
+      email,
+      cpf,
+      phone,
       currentPassword
     ))
   }
 
-  function handleOnChangeText(input, value) {
-    dispatch(ProfileActions.handleOnChangeText(input, value))
-  }
-  
   function logout() {
     dispatch(AuthActions.logoutRequest())
   }
@@ -82,7 +105,7 @@ const Signup = ({ navigation }) => {
       behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
       style={styles.container}
     >
-    <Background>
+    <Background loading={profileReducer.loading}>
       <Container>
         <Form>
           <FormInput
@@ -91,8 +114,8 @@ const Signup = ({ navigation }) => {
             autoCorrect={false}
             placeholder="Nome completo"
             returnKeyType="next"
-            value={profile.userName}
-            onChangeText={value => handleOnChangeText('userName', value)}
+            value={name}
+            onChangeText={value => setName(value)}
             onSubmitEditing={() => emailRef.current.focus()}
           />
 
@@ -104,8 +127,8 @@ const Signup = ({ navigation }) => {
             placeholder="Digite seu email"
             returnKeyType="next"
             ref={emailRef}
-            value={profile.userEmail}
-            onChangeText={value => handleOnChangeText('userEmail', value)}
+            value={email}
+            onChangeText={value => setEmail(value)}
             onSubmitEditing={() => cpfRef.current._inputElement.focus()}
           />
 
@@ -119,8 +142,8 @@ const Signup = ({ navigation }) => {
               placeholderTextColor='#E7E7E7'
               returnKeyType="next"
               ref={cpfRef}
-              value={profile.userCPF}
-              onChangeText={value => handleOnChangeText('userCPF', value)}
+              value={cpf}
+              onChangeText={value => setCpf(value)}
               onSubmitEditing={() => phoneRef.current._inputElement.focus()}
             />
           </View>
@@ -140,8 +163,8 @@ const Signup = ({ navigation }) => {
               placeholderTextColor='#E7E7E7'
               returnKeyType="next"
               ref={phoneRef}
-              value={profile.userPhone}
-              onChangeText={value => handleOnChangeText('userPhone', value)}
+              value={phone}
+              onChangeText={value => setPhone(value)}
               onSubmitEditing={() => currentPasswordRef.current.focus()}
             />
           </View>
@@ -183,7 +206,7 @@ const Signup = ({ navigation }) => {
               />
           </PasswordInputs>
 
-          <SubmitButton loading={profile.updating} onPress={handleSubmit}>
+          <SubmitButton loading={profileReducer.updating} onPress={handleSubmit}>
             Salvar
           </SubmitButton>
         </Form>
